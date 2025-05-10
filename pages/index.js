@@ -12,7 +12,7 @@ export default function Home() {
         {/* Menu kiri */}
         <div className="flex gap-6 items-center">
           <a href="#" className="text-white font-bold text-lg">HOME</a>
-          <Link href="/dipakai" className="text-white font-bold text-lg">DIPAKAI</Link>
+          <Link href="/dipakai" className="text-white font-bold text-lg">PEMINJAMAN</Link>
         </div>
 
         {/* Search dan Tombol + */}
@@ -34,33 +34,38 @@ export default function Home() {
       </nav>
 
       <main className="container mx-auto px-4 py-8">
-        <div className="overflow-hidden rounded-lg shadow-lg border border-gray-300">
-          {/* Header kolom */}
-          <div className="grid grid-cols-2 bg-gray-100 border-b border-gray-300">
-            <div className="text-center font-semibold py-3 border-r border-gray-300 text-green-600">
-              BAGUS
-            </div>
-            <div className="text-center font-semibold py-3 text-red-600">
-              RUSAK
-            </div>
-          </div>
+  <div className="overflow-hidden rounded-lg shadow-lg border border-gray-300">
+    {/* Header kolom */}
+    <div className="grid grid-cols-4 bg-gray-100 border-b border-gray-300 font-semibold text-center">
+      <div className="py-3 border-r border-gray-300">Kode Proyektor</div>
+      <div className="py-3 border-r border-gray-300">Merek</div>
+      <div className="py-3 border-r border-gray-300">No. Seri</div>
+      <div className="py-3">Status</div>
+    </div>
 
-          {/* Isi data */}
-          {[...Array(5)].map((_, index) => (
-            <div
-              className="grid grid-cols-2 border-t border-gray-200 hover:bg-gray-50 transition"
-              key={index}
-            >
-              <div className="py-3 text-center border-r border-gray-200 text-gray-800">
-                INF-2023-R101-00{index + 1}
-              </div>
-              <div className="py-3 text-center text-red-600">
-                INF-2023-R101-00{index + 1}
-              </div>
-            </div>
-          ))}
+    {/* Isi data (contoh 5 proyektor) */}
+    {[
+      { kode: "INF-2023-R101-001", merek: "Epson", seri: "SN-001", status: "Tersedia" },
+      { kode: "INF-2023-R101-002", merek: "Canon", seri: "SN-002", status: "Sedang dipakai" },
+      { kode: "INF-2023-R101-003", merek: "BenQ", seri: "SN-003", status: "Rusak" },
+      { kode: "INF-2023-R101-004", merek: "Acer", seri: "SN-004", status: "Tersedia" },
+      { kode: "INF-2023-R101-005", merek: "Sony", seri: "SN-005", status: "Sedang dipakai" },
+    ].map((item, index) => (
+      <div key={index} className="grid grid-cols-4 border-t border-gray-200 text-center hover:bg-gray-50 transition">
+        <div className="py-3 border-r border-gray-200">{item.kode}</div>
+        <div className="py-3 border-r border-gray-200">{item.merek}</div>
+        <div className="py-3 border-r border-gray-200">{item.seri}</div>
+        <div className={`py-3 font-medium ${
+          item.status === "Tersedia" ? "text-green-600" :
+          item.status === "Sedang dipakai" ? "text-yellow-600" :
+          "text-red-600"
+        }`}>
+          {item.status}
         </div>
-      </main>
+      </div>
+    ))}
+  </div>
+</main>
 
       <Footer />
     </>

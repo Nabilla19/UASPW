@@ -3,15 +3,15 @@ import Footer from '../components/Footer';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
-export default function Proyektor() {
+export default function Kegiatan() {
   const router = useRouter();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Setelah submit, arahkan ke halaman Kegiatan
-    router.push('/kegiatan');
+    // Setelah submit, arahkan ke halaman Transaksi
+    router.push('/transaksi');
   };
-
+  
   return (
     <>
       <Header />
@@ -24,7 +24,7 @@ export default function Proyektor() {
 
       <main className="container mx-auto px-4 py-8">
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold mb-6">PROYEKTOR</h1>
+          <h1 className="text-3xl font-bold mb-6">KEGIATAN</h1>
 
           {/* Tombol navigasi */}
           <div className="flex justify-center gap-4 mb-8">
@@ -43,26 +43,30 @@ export default function Proyektor() {
           </div>
         </div>
 
-        {/* Form Proyektor */}
+        {/* Form Kegiatan */}
         <div className="bg-white rounded-lg shadow-lg p-6 max-w-md mx-auto">
-          <h2 className="text-xl font-semibold mb-4">Form Proyektor</h2>
+          <h2 className="text-xl font-semibold mb-4">Form Kegiatan</h2>
           <form className="space-y-4" onSubmit={handleSubmit}>
             <div>
-              <label className="block text-gray-700 mb-2">Kode Proyektor</label>
-              <input type="text" className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Input Kode Proyektor" />
+              <label className="block text-gray-700 mb-2">Kode Transaksi</label>
+              <input type="text" className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Input Kode Transaksi" />
             </div>
             <div>
-              <label className="block text-gray-700 mb-2">Merek</label>
-              <input type="text" className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Input Merek" />
+              <label className="block text-gray-700 mb-2">Nama Kegiatan</label>
+              <input type="text" className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Input Kegiatan" />
             </div>
             <div>
-              <label className="block text-gray-700 mb-2">Kode Seri Proyektor</label>
-              <input type="text" className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Input Kode Seri Proyektor" />
+              <label className="block text-gray-700 mb-2">Tempat</label>
+              <input type="text" className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Input Tempat" />
+            </div>
+            <div>
+              <label className="block text-gray-700 mb-2">Waktu</label>
+              <input type="text" className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Input Waktu" />
             </div>
 
             <div className="flex justify-between">
               {/* Tombol Sebelumnya */}
-              <Link href="/peminjaman">
+              <Link href="/infokus">
                 <button type="button" className="bg-gray-400 text-white px-6 py-3 rounded-lg hover:bg-gray-500 transition font-semibold">
                   SEBELUMNYA
                 </button>

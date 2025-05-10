@@ -12,7 +12,7 @@ export default function DipakaiPage() {
         {/* Menu kiri */}
         <div className="flex gap-6 items-center">
           <Link href="/" className="text-white font-bold text-lg">HOME</Link>
-          <span className="text-white font-bold text-lg underline">DIPAKAI</span>
+          <span className="text-white font-bold text-lg underline">PEMINJAMAN</span>
         </div>
 
         {/* Search saja (tombol + dihapus) */}
@@ -36,21 +36,33 @@ export default function DipakaiPage() {
           <table className="w-full border border-gray-400 shadow">
             <thead className="bg-gray-200 text-gray-700 font-bold text-lg">
               <tr>
-                <th className="border border-gray-400 px-4 py-2">INFOKUS</th>
-                <th className="border border-gray-400 px-4 py-2">MATAKULIAH</th>
-                <th className="border border-gray-400 px-4 py-2">MAHASISWA</th>
-                <th className="border border-gray-400 px-4 py-2">DOSEN</th>
-                <th className="border border-gray-400 px-4 py-2">JADWAL</th>
+                <th className="border border-gray-400 px-4 py-2">Kode Transaksi</th>
+                <th className="border border-gray-400 px-4 py-2">Kode Infokus</th>
+                <th className="border border-gray-400 px-4 py-2">NIK</th>
+                <th className="border border-gray-400 px-4 py-2">Status</th>
               </tr>
             </thead>
             <tbody>
-              {[...Array(5)].map((_, i) => (
+              {[
+                { kodeTransaksi: "TRX-001", kodeInfokus: "INF-001", nik: "19780001", status: "Belum Dikembalikan" },
+                { kodeTransaksi: "TRX-002", kodeInfokus: "INF-002", nik: "19780002", status: "Sudah Dikembalikan" },
+                { kodeTransaksi: "TRX-003", kodeInfokus: "INF-003", nik: "19780003", status: "Belum Dikembalikan" },
+                { kodeTransaksi: "TRX-004", kodeInfokus: "INF-004", nik: "19780004", status: "Sudah Dikembalikan" },
+                { kodeTransaksi: "TRX-005", kodeInfokus: "INF-005", nik: "19780005", status: "Belum Dikembalikan" },
+              ].map((item, i) => (
                 <tr key={i} className="text-center hover:bg-gray-100 transition">
-                  <td className="border border-gray-300 py-2">INF-00{i + 1}</td>
-                  <td className="border border-gray-300 py-2">MK-00{i + 1}</td>
-                  <td className="border border-gray-300 py-2">MHS-00{i + 1}</td>
-                  <td className="border border-gray-300 py-2">DOS-00{i + 1}</td>
-                  <td className="border border-gray-300 py-2">Senin, 08:00</td>
+                  <td className="border border-gray-300 py-2 text-blue-600 hover:underline cursor-pointer">
+                    <Link href={`/transaksi/${item.kodeTransaksi}`}>
+                      {item.kodeTransaksi}
+                    </Link>
+                  </td>
+                  <td className="border border-gray-300 py-2">{item.kodeInfokus}</td>
+                  <td className="border border-gray-300 py-2">{item.nik}</td>
+                  <td className={`border border-gray-300 py-2 font-semibold ${
+                    item.status === "Sudah Dikembalikan" ? "text-green-600" : "text-red-600"
+                  }`}>
+                    {item.status}
+                  </td>
                 </tr>
               ))}
             </tbody>
