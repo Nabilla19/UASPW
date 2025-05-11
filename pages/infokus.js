@@ -8,7 +8,6 @@ export default function Proyektor() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Setelah submit, arahkan ke halaman Kegiatan
     router.push('/kegiatan');
   };
 
@@ -26,7 +25,7 @@ export default function Proyektor() {
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold mb-6">PROYEKTOR</h1>
 
-          {/* Tombol navigasi */}
+          {}
           <div className="flex justify-center gap-4 mb-8">
             <Link href="/peminjaman" className={`px-6 py-2 rounded-lg font-semibold ${router.pathname === '/peminjaman' ? 'bg-gray-200 text-gray-800' : 'bg-blue-600 text-white'}`}>
               PENANGGUNG JAWAB
@@ -43,7 +42,7 @@ export default function Proyektor() {
           </div>
         </div>
 
-        {/* Form Proyektor */}
+        {}
         <div className="bg-white rounded-lg shadow-lg p-6 max-w-md mx-auto">
           <h2 className="text-xl font-semibold mb-4">Form Proyektor</h2>
           <form className="space-y-4" onSubmit={handleSubmit}>
@@ -61,14 +60,14 @@ export default function Proyektor() {
             </div>
 
             <div className="flex justify-between">
-              {/* Tombol Sebelumnya */}
+              {}
               <Link href="/peminjaman">
                 <button type="button" className="bg-gray-400 text-white px-6 py-3 rounded-lg hover:bg-gray-500 transition font-semibold">
                   SEBELUMNYA
                 </button>
               </Link>
 
-              {/* Tombol Submit */}
+              {}
               <button 
                 type="next" 
                 className="bg-green-500 text-white px-6 py-3 rounded-lg hover:bg-green-600 transition font-semibold"

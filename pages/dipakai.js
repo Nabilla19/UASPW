@@ -7,15 +7,15 @@ export default function DipakaiPage() {
     <>
       <Header />
 
-      {/* Navbar */}
+      {}
       <nav className="bg-gray-800 px-6 py-3 flex flex-col sm:flex-row items-center justify-between shadow-md">
-        {/* Menu kiri */}
+        {}
         <div className="flex gap-6 items-center">
           <Link href="/" className="text-white font-bold text-lg">HOME</Link>
           <span className="text-white font-bold text-lg underline">PEMINJAMAN</span>
         </div>
 
-        {/* Search saja (tombol + dihapus) */}
+        {}
         <div className="mt-3 sm:mt-0">
           <div className="relative">
             <input
@@ -30,7 +30,7 @@ export default function DipakaiPage() {
         </div>
       </nav>
 
-      {/* Tabel */}
+      {}
       <main className="container mx-auto px-4 py-8">
         <div className="overflow-x-auto">
           <table className="w-full border border-gray-400 shadow">

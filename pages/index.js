@@ -7,15 +7,15 @@ export default function Home() {
     <>
       <Header />
 
-      {/* Navbar */}
+      {}
       <nav className="bg-gray-800 px-6 py-3 flex flex-col sm:flex-row items-center justify-between shadow-md">
-        {/* Menu kiri */}
+        {}
         <div className="flex gap-6 items-center">
           <a href="#" className="text-white font-bold text-lg">HOME</a>
           <Link href="/dipakai" className="text-white font-bold text-lg">PEMINJAMAN</Link>
         </div>
 
-        {/* Search dan Tombol + */}
+        {}
         <div className="mt-3 sm:mt-0 flex items-center gap-3">
           <div className="relative">
             <input
@@ -35,7 +35,7 @@ export default function Home() {
 
       <main className="container mx-auto px-4 py-8">
   <div className="overflow-hidden rounded-lg shadow-lg border border-gray-300">
-    {/* Header kolom */}
+    {}
     <div className="grid grid-cols-4 bg-gray-100 border-b border-gray-300 font-semibold text-center">
       <div className="py-3 border-r border-gray-300">Kode Proyektor</div>
       <div className="py-3 border-r border-gray-300">Merek</div>
@@ -43,7 +43,7 @@ export default function Home() {
       <div className="py-3">Status</div>
     </div>
 
-    {/* Isi data (contoh 5 proyektor) */}
+    {}
     {[
       { kode: "INF-2023-R101-001", merek: "Epson", seri: "SN-001", status: "Tersedia" },
       { kode: "INF-2023-R101-002", merek: "Canon", seri: "SN-002", status: "Sedang dipakai" },

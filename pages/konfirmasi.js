@@ -3,19 +3,16 @@ import { useRouter } from 'next/router';
 export default function Konfirmasi() {
   const router = useRouter();
   
-  // Data yang akan ditampilkan di halaman konfirmasi
   const { kodeTransaksi, nik, nama, noHp, kegiatan, tempat, waktuDipakai, waktuDikembalikan } = router.query;
 
   const handleSubmit = () => {
     alert('Data Submitted!');
-    // Redirect ke halaman peminjaman setelah submit
     router.push('/dipakai');
   };
 
   const handleDelete = () => {
     alert('Data Deleted!');
-    // Redirect ke halaman home setelah delete
-    router.push('/'); // Halaman Home
+    router.push('/'); 
   };
 
   return (
@@ -23,7 +20,7 @@ export default function Konfirmasi() {
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-lg">
         <h1 className="text-2xl font-semibold text-center mb-6">Konfirmasi Transaksi</h1>
         
-        {/* Menampilkan informasi transaksi */}
+        {}
         <div className="mb-6 space-y-4">
           <p><strong>Kode Transaksi:</strong> {kodeTransaksi}</p>
           <p><strong>NIK:</strong> {nik}</p>
@@ -35,7 +32,7 @@ export default function Konfirmasi() {
           <p><strong>Waktu Dikembalikan:</strong> {waktuDikembalikan}</p>
         </div>
 
-        {/* Tombol Submit dan Delete */}
+        {}
         <div className="flex justify-between gap-4">
           <button
             onClick={handleDelete}

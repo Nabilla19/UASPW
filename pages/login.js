@@ -7,15 +7,14 @@ export default function Login() {
 
   const handleLoginSubmit = (e) => {
     e.preventDefault();
-    // Simulasi berhasil login
-    router.push('/'); // Redirect ke halaman Home (index)
+    router.push('/'); 
   };
 
   return (
     <div className="min-h-screen bg-gray-900 flex items-center justify-center">
       <div className="container mx-auto px-4">
         {activeTab === 'login' ? (
-          // --- FORM LOGIN ---
+      
           <div className="max-w-md mx-auto">
             <div className="mb-6 text-center">
               <div className="flex items-center justify-center mb-2">
@@ -71,9 +70,8 @@ export default function Login() {
             </div>
           </div>
         ) : (
-          // --- FORM SIGN UP ---
           <div className="max-w-md mx-auto">
-            {/* ... (form signup sama seperti sebelumnya, tidak perlu diubah) */}
+            {}
           </div>
         )}
       </div>
