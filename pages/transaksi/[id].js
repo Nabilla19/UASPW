@@ -34,7 +34,7 @@ export default function DetailTransaksi() {
         <div className="max-w-3xl mx-auto">
           {/* Tombol Kembali */}
           <button
-            onClick={() => router.push("/dipakai")}
+            onClick={() => router.push("/transaksi")}
             className="mb-6 text-blue-600 hover:underline flex items-center gap-2"
           >
             ← Kembali 
