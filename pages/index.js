@@ -1,217 +1,444 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { Menu, X } from 'lucide-react';
+import useAuth from '../components/hooks/useAuth';
+
 
 export default function Home() {
+  const [menuOpen, setMenuOpen] = useState(false);
   const [showForm, setShowForm] = useState(false);
+  const { userRole, loading } = useAuth();
+  const [showFilter, setShowFilter] = useState(false); // mode filter aktif
+  const [editMode, setEditMode] = useState(false);
+  const [editData, setEditData] = useState(null);
   const [searchParams, setSearchParams] = useState({
-    kodeInfokus: '',
-    kodeTransaksi: '',
-    nik: '',
+    kode_proyektor: '',
+    nomor_seri: '',
+    merek: '',
     status: ''
   });
-  const [showSearchPopup, setShowSearchPopup] = useState(false);
-  const [filteredItems, setFilteredItems] = useState([
-    { kode: "INF-2023-R101-001", merek: "Epson", seri: "SN-001", status: "Tersedia" },
-    { kode: "INF-2023-R101-002", merek: "Canon", seri: "SN-002", status: "Sedang dipakai" },
-    { kode: "INF-2023-R101-003", merek: "BenQ", seri: "SN-003", status: "Rusak" },
-    { kode: "INF-2023-R101-004", merek: "Acer", seri: "SN-004", status: "Tersedia" },
-    { kode: "INF-2023-R101-005", merek: "Sony", seri: "SN-005", status: "Sedang dipakai" },
-  ]);
+  const [allItems, setAllItems] = useState([]);
+  const [filteredItems, setFilteredItems] = useState([]);
   const router = useRouter();
+  
+  // Ambil data dari backend
+useEffect(() => {
+  const token = localStorage.getItem('token');
+
+  fetch('http://localhost:3001/proyektor', {
+    headers: {
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+  })
+    .then((res) => {
+      if (!res.ok) throw new Error('Gagal mengambil data');
+      return res.json();
+    })
+    .then((data) => {
+      setAllItems(data);
+      setFilteredItems(data);
+    })
+    .catch((error) => {
+      console.error('Error saat fetch data:', error);
+    });
+}, []);
+
+  if (loading) {
+    return <div className="flex justify-center items-center h-screen">Loading...</div>;
+  }
 
   const toggleForm = () => {
+     setEditMode(false);
+    setEditData(null);
     setShowForm(!showForm);
   };
 
-  const handleNext = (e) => {
+  const handleNext = async (e) => {
     e.preventDefault();
-    setShowForm(false);
+    const form = e.target;
+    const proyektorbaru = {
+      kode_proyektor: form.kode_proyektor.value,
+      merek: form.merek.value,
+      nomor_seri: form.nomor_seri.value,
+      status: form.status.value,
+    };
+
+    try {
+  const token = localStorage.getItem('token'); // Ambil token
+  if (!token) throw new Error("Anda belum login!");
+
+  if (editMode) {
+    // PUT request untuk update data
+    const res = await fetch(`http://localhost:3001/proyektor/${proyektorbaru.kode_proyektor}`, {
+      method: 'PUT',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(proyektorbaru) // Kirim data yang akan diupdate
+    });
+    if (!res.ok) throw new Error('Gagal update');
+    
+    // Update state
+    setAllItems((prev) =>
+      prev.map((item) =>
+        item.kode_proyektor === proyektorbaru.kode_proyektor ? proyektorbaru : item
+      )
+    );
+    setFilteredItems((prev) =>
+      prev.map((item) =>
+        item.kode_proyektor === proyektorbaru.kode_proyektor ? proyektorbaru : item
+      )
+    );
+  } else {
+    // POST request untuk tambah data baru
+    const res = await fetch('http://localhost:3001/proyektor', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(proyektorbaru) // Kirim data baru
+    });
+    if (!res.ok) throw new Error('Gagal tambah');
+    const newItem = await res.json();
+    setAllItems((prev) => [...prev, newItem]);
+    setFilteredItems((prev) => [...prev, newItem]);
+  }
+
+  setShowForm(false);
+  setEditMode(false);
+  setEditData(null);
+} catch (err) {
+  alert('Error: ' + err.message);
+  console.error("Error detail:", err); // Untuk debugging
+}
+  };
+
+  const handleDelete = async (kode) => {
+  if (!confirm('Yakin hapus proyektor ini?')) return;
+  
+  try {
+    const token = localStorage.getItem('token'); // Ambil token dari localStorage
+    if (!token) throw new Error("Anda belum login!"); // Handle jika token tidak ada
+
+    const res = await fetch(`http://localhost:3001/proyektor/${kode}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    });
+
+    if (!res.ok) {
+      const errorData = await res.json(); // Ambil pesan error dari backend (jika ada)
+      throw new Error(errorData.message || 'Gagal hapus proyektor');
+    }
+
+    // Update state setelah penghapusan berhasil
+    setAllItems((prev) => prev.filter((item) => item.kode_proyektor !== kode));
+    setFilteredItems((prev) => prev.filter((item) => item.kode_proyektor !== kode));
+
+  } catch (err) {
+    alert('Error: ' + err.message);
+    console.error("Delete error:", err); // Debugging
+  }
+};
+
+   const handleEdit = (data) => {
+    setEditMode(true);
+    setEditData(data);
+    setShowForm(true);
   };
 
   const handleSearch = () => {
-    const { kodeInfokus, kodeTransaksi, nik, status } = searchParams;
-    const filtered = [
-      { kode: "INF-2023-R101-001", merek: "Epson", seri: "SN-001", status: "Tersedia" },
-      { kode: "INF-2023-R101-002", merek: "Canon", seri: "SN-002", status: "Sedang dipakai" },
-      { kode: "INF-2023-R101-003", merek: "BenQ", seri: "SN-003", status: "Rusak" },
-      { kode: "INF-2023-R101-004", merek: "Acer", seri: "SN-004", status: "Tersedia" },
-      { kode: "INF-2023-R101-005", merek: "Sony", seri: "SN-005", status: "Sedang dipakai" },
-    ].filter(item => 
-      (kodeInfokus ? item.kode.includes(kodeInfokus) : true) &&
-      (kodeTransaksi ? item.seri.includes(kodeTransaksi) : true) &&
-      (nik ? item.merek.includes(nik) : true) &&
-      (status ? item.status === status : true)
-    );
+   const { kode_proyektor, nomor_seri, merek, status } = searchParams;
+
+const filtered = allItems.filter(item => 
+  (kode_proyektor ? item.kode_proyektor.toLowerCase().includes(kode_proyektor.toLowerCase()) : true) &&
+  (nomor_seri ? item.nomor_seri.toLowerCase().includes(nomor_seri.toLowerCase()) : true) &&
+  (merek ? item.merek.toLowerCase().includes(merek.toLowerCase()) : true) &&
+  (status ? item.status === status : true)
+);
+
     setFilteredItems(filtered);
-    setShowSearchPopup(false);
+    setShowFilter(false); // kembali ke mode utama, tapi data sudah terfilter
   };
 
+  const handleResetFilter = () => {
+    setSearchParams({
+    kode_proyektor: '',
+    nomor_seri: '',
+    merek: '',
+    status: ''
+    });
+    setFilteredItems(allItems);
+  };
+
+  const handleCancelFilter = () => {
+    setShowFilter(false);
+  };
+
+  if (loading) return <div className="flex justify-center items-center h-screen">Loading...</div>;
   return (
     <>
       <Header />
-      
+
       {/* Navbar */}
-      <nav className="bg-gray-800 px-6 py-3 flex flex-col sm:flex-row items-center justify-between shadow-md">
-        <div className="flex gap-6 items-center">
-          <Link href="/" className="text-white font-bold text-lg">HOME</Link>
-          <Link href="/transaksi" className="text-white font-bold text-lg">TRANSAKSI</Link>
-          <Link href="/penanggungjawab" className="text-white font-bold text-lg">PENANGGUNG JAWAB</Link>
-          <Link href="/kegiatan" className="text-white font-bold text-lg">KEGIATAN</Link>
-          <Link href="/riwayat" className="text-white font-bold text-lg">RIWAYAT</Link>
-        </div>
-        
-        <div className="mt-3 sm:mt-0 flex items-center gap-3">
-          <div className="relative">
-            <input
-              type="text"
-              placeholder="Cari..."
-              className="pl-4 pr-10 py-2 rounded-lg bg-white text-black focus:outline-none"
-              onClick={() => setShowSearchPopup(true)}
-            />
-            <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-black">
-              🔍
-            </span>
+      <nav className="bg-gray-800 px-6 py-3 shadow-md">
+        <div className="flex justify-between items-center">
+          <div className="flex items-center">
+            <button
+              className="sm:hidden text-white mr-4"
+              onClick={() => setMenuOpen(!menuOpen)}
+            >
+              {menuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+
+            <div className="hidden sm:flex gap-6 items-center">
+              <Link href="/" className="text-white font-bold text-lg">HOME</Link>
+              <Link href="/transaksi" className="text-white font-bold text-lg">TRANSAKSI</Link>
+              <Link href="/penanggungjawab" className="text-white font-bold text-lg">PENANGGUNG JAWAB</Link>
+              <Link href="/kegiatan" className="text-white font-bold text-lg">KEGIATAN</Link>
+              <Link href="/riwayat" className="text-white font-bold text-lg">RIWAYAT</Link>
+              <Link href="/profile" className="text-white font-bold text-lg">PROFILE</Link>
+            </div>
           </div>
-          <button 
-            onClick={toggleForm}
-            className="bg-white text-black text-xl font-bold w-10 h-10 flex items-center justify-center rounded-full shadow hover:scale-105 transition"
-          >
-            +
-          </button>
+
+   {!loading && userRole === 'ADMIN' && (
+  <button
+    onClick={toggleForm}
+    className="bg-white text-black text-xl font-bold w-10 h-10 flex items-center justify-center rounded-full shadow hover:scale-105 transition"
+    aria-label="Tambah proyektor"
+  >
+    +
+  </button>
+)}
         </div>
+
+        {menuOpen && (
+          <div className="sm:hidden flex flex-col mt-2 space-y-2 items-start">
+            <Link href="/" className="text-white font-bold text-lg">HOME</Link>
+            <Link href="/transaksi" className="text-white font-bold text-lg">TRANSAKSI</Link>
+            <Link href="/penanggungjawab" className="text-white font-bold text-lg">PENANGGUNG JAWAB</Link>
+            <Link href="/kegiatan" className="text-white font-bold text-lg">KEGIATAN</Link>
+            <Link href="/riwayat" className="text-white font-bold text-lg">RIWAYAT</Link>
+            <Link href="/profile" className="text-white font-bold text-lg">PROFILE</Link>
+          </div>
+        )}
       </nav>
 
-      {/* Search Popup */}
-      {showSearchPopup && (
-  <div className="flex justify-center mt-4">
-    <div className="bg-white border border-gray-300 shadow-md p-6 rounded-lg w-full max-w-xl">
-      <h2 className="text-lg font-semibold mb-2">Filter</h2>
-      <form className="space-y-3 text-sm">
-        <div>
-          <label className="block text-gray-700 mb-1">Kode Infokus</label>
-          <input
-            type="text"
-            className="w-full px-3 py-1.5 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
-            value={searchParams.kodeInfokus}
-            onChange={(e) => setSearchParams({ ...searchParams, kodeInfokus: e.target.value })}
-          />
-        </div>
-        <div>
-          <label className="block text-gray-700 mb-1">Kode Transaksi</label>
-          <input
-            type="text"
-            className="w-full px-3 py-1.5 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
-            value={searchParams.kodeTransaksi}
-            onChange={(e) => setSearchParams({ ...searchParams, kodeTransaksi: e.target.value })}
-          />
-        </div>
-        <div>
-          <label className="block text-gray-700 mb-1">NIK</label>
-          <input
-            type="text"
-            className="w-full px-3 py-1.5 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
-            value={searchParams.nik}
-            onChange={(e) => setSearchParams({ ...searchParams, nik: e.target.value })}
-          />
-        </div>
-        <div>
-          <label className="block text-gray-700 mb-1">Status</label>
-          <select
-            className="w-full px-3 py-1.5 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
-            value={searchParams.status}
-            onChange={(e) => setSearchParams({ ...searchParams, status: e.target.value })}
-          >
-            <option value="">Semua</option>
-            <option value="Tersedia">Tersedia</option>
-            <option value="Sedang dipakai">Sedang dipakai</option>
-            <option value="Rusak">Rusak</option>
-          </select>
-        </div>
-
-        <div className="flex justify-end gap-2 pt-2">
-          <button 
-            type="button"
-            onClick={() => setShowSearchPopup(false)}
-            className="text-gray-500 text-sm hover:underline"
-          >
-            Tutup
-          </button>
-          <button 
-            type="button" 
-            onClick={handleSearch}
-            className="bg-blue-500 text-white px-4 py-1.5 rounded-md hover:bg-blue-600 text-sm"
-          >
-            Cari
-          </button>
-        </div>
-      </form>
-    </div>
-  </div>
-)}
-
-
-      {/* Form Proyektor Popup */}
+      {/* Form Tambah Proyektor */}
       {showForm && (
-        <div className="container mx-auto px-4 py-4">
-          <div className="bg-white rounded-lg shadow-lg p-6 max-w-md mx-auto">
-            <h2 className="text-xl font-semibold mb-4">Form Proyektor</h2>
-            <form className="space-y-4">
+        <div className="px-6 mt-6 mb-6 max-w-xl mx-auto border border-gray-300 rounded-lg p-6 shadow">
+          <h2 className="text-xl font-bold mb-4">{editMode ? 'Edit' : 'Tambah'} Form Tambah Proyektor</h2>
+          <form onSubmit={handleNext} className="space-y-4">
+            <div>
+              <label className="block mb-1 font-semibold">Kode Proyektor</label>
+               <input
+                type="text"
+                name="kode_proyektor"
+                className="w-full border rounded px-3 py-2"
+                defaultValue={editData?.kode_proyektor || ''}
+                required
+                readOnly={editMode}
+              /> 
+            </div>
+            <div>
+              <label className="block mb-1 font-semibold">Merek</label>
+                 <input
+                type="text"
+                name="merek"
+                className="w-full border rounded px-3 py-2"
+                defaultValue={editData?.merek || ''}
+                required
+              />
+            </div>
+            <div>
+              <label className="block mb-1 font-semibold">Seri</label>
+               <input
+                type="text"
+                name="nomor_seri"
+                className="w-full border rounded px-3 py-2"
+                defaultValue={editData?.nomor_seri || ''}
+                required
+              />
+            </div>
               <div>
-                <label className="block text-gray-700 mb-2">Kode Proyektor</label>
-                <input type="text" className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Input Kode Proyektor" />
-              </div>
-              <div>
-                <label className="block text-gray-700 mb-2">Merek</label>
-                <input type="text" className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Input Merek" />
-              </div>
-              <div>
-                <label className="block text-gray-700 mb-2">Kode Seri Proyektor</label>
-                <input type="text" className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Input Kode Seri Proyektor" />
-              </div>
-
-              <div className="flex justify-between">
-                <button 
-                  type="button" 
-                  onClick={handleNext}
-                  className="bg-green-500 text-white px-6 py-3 rounded-lg hover:bg-green-600 transition font-semibold"
-                >
-                  SUBMIT
-                </button>
-              </div>
-            </form>
-          </div>
+              <label className="block mb-1 font-semibold">Status</label>
+               <input
+                type="text"
+                name="status"
+                className="w-full border rounded px-3 py-2"
+                defaultValue={editData?.status || ''}
+                required
+              />
+            </div>
+            <div className="flex justify-between">
+                 <button type="button" onClick={toggleForm} className="bg-gray-300 px-4 py-2 rounded hover:bg-gray-400">
+                Batal
+              </button>
+              <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                {editMode ? 'Update' : 'Submit'}
+              </button>
+            </div>
+          </form>
         </div>
       )}
 
-      <main className="container mx-auto px-4 py-8">
-        <div className="overflow-hidden rounded-lg shadow-lg border border-gray-300">
-          <div className="grid grid-cols-4 bg-gray-100 border-b border-gray-300 font-semibold text-center">
-            <div className="py-3 border-r border-gray-300">Kode Proyektor</div>
-            <div className="py-3 border-r border-gray-300">Merek</div>
-            <div className="py-3 border-r border-gray-300">No. Seri</div>
-            <div className="py-3">Status</div>
+      {/* Kalau mode filter, tampilkan form filter saja */}
+      {showFilter ? (
+        
+        <div className="max-w-xl mx-auto px-6 mt-6 mb-6 border border-gray-300 rounded-lg p-6 shadow">
+          <h2 className="text-lg font-semibold mb-3">Filter Proyektor</h2>
+           
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleSearch();
+            }}
+            className="space-y-4"
+          >
+            <div>
+              <label className="block mb-1 font-semibold">Kode Proyektor</label>
+              <input
+                type="text"
+                className="w-full border rounded px-3 py-2"
+                value={searchParams.kode_proyektor}
+                onChange={(e) => setSearchParams({ ...searchParams, kode_proyektor: e.target.value })}
+              />
+            </div>
+            <div>
+              <label className="block mb-1 font-semibold">Nomor Seri</label>
+              <input
+                type="text"
+                className="w-full border rounded px-3 py-2"
+                value={searchParams.nomor_seri}
+                onChange={(e) => setSearchParams({ ...searchParams, nomor_seri: e.target.value })}
+              />
+            </div>
+            <div>
+              <label className="block mb-1 font-semibold">Merek</label>
+              <input
+                type="text"
+                className="w-full border rounded px-3 py-2"
+                value={searchParams.merek}
+                onChange={(e) => setSearchParams({ ...searchParams, merek: e.target.value })}
+              />
+            </div>
+            <div>
+              <label className="block mb-1 font-semibold">Status</label>
+              <select
+                className="w-full border rounded px-3 py-2"
+                value={searchParams.status}
+                onChange={(e) => setSearchParams({ ...searchParams, status: e.target.value })}
+                
+              >
+                <option value="">Semua</option>
+                <option value="tersedia">Tersedia</option>
+                <option value="sedang dipakai">Sedang dipakai</option>
+                <option value="rusak">Rusak</option>
+              </select>
+            </div>
+            <div className="flex justify-between pt-2">
+              <button
+                type="button"
+                onClick={handleCancelFilter}
+                className="bg-gray-300 px-4 py-2 rounded hover:bg-gray-400"
+              >
+                Batal
+              </button>
+              <button
+                type="submit"
+                className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+              >
+                Cari
+              </button>
+            </div>
+          </form>
+        
+        </div>
+      ) : (
+        // Mode utama: tampil data + tombol filter
+        <>
+          {/* Tombol filter */}
+          <div className="flex justify-end px-6 mt-6 mb-4 max-w-4xl mx-auto">
+            <button
+              onClick={() => setShowFilter(true)}
+              className="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700"
+            >
+              Filter Proyektor
+            </button>
           </div>
 
-          {/* Display filtered items */}
-          {filteredItems.map((item, index) => (
-            <div key={index} className="grid grid-cols-4 border-t border-gray-200 text-center hover:bg-gray-50 transition">
-              <div className="py-3 border-r border-gray-200">{item.kode}</div>
-              <div className="py-3 border-r border-gray-200">{item.merek}</div>
-              <div className="py-3 border-r border-gray-200">{item.seri}</div>
-              <div className={`py-3 font-medium ${
-                item.status === "Tersedia" ? "text-green-600" :
-                item.status === "Sedang dipakai" ? "text-yellow-600" :
-                "text-red-600"
-              }`}>
-                {item.status}
-              </div>
-            </div>
-          ))}
-        </div>
-      </main>
+          {/* Tabel Proyektor */}
+          <div className="overflow-x-auto px-6 max-w-4xl mx-auto mb-12">
+            <table className="w-full border-collapse border border-gray-300 text-center text-sm">
+              <thead>
+                <tr className="bg-gray-800 text-white">
+                  <th className="border border-gray-300 py-2">Kode Infokus</th>
+                  <th className="border border-gray-300 py-2">Merek</th>
+                  <th className="border border-gray-300 py-2">Seri</th>
+                  <th className="border border-gray-300 py-2">Status</th>
+                     {userRole === 'ADMIN' && (
+              <th className="border border-gray-300 py-2">Aksi</th>
+              )}
+                </tr>
+              </thead>
+              <tbody>
+                {filteredItems.length === 0 ? (
+                  <tr>
+                    <td colSpan={4} className="py-4 text-gray-500">
+                      Data proyektor tidak ditemukan
+                    </td>
+                  </tr>
+                ) : (
+                  filteredItems.map((item, index) => (
+                    <tr key={index}>
+                      <td className="border border-gray-300 py-2">{item.kode_proyektor}</td>
+                      <td className="border border-gray-300 py-2">{item.merek}</td>
+                      <td className="border border-gray-300 py-2">{item.nomor_seri}</td>
+                      <td className="border border-gray-300 py-2">{item.status}</td>
+                       
+                    {userRole === 'ADMIN' && (
+                       <td className="border border-gray-300 py-2 flex justify-center gap-2">
+                        <button
+                          onClick={() => handleEdit(item)}
+                          className="bg-yellow-400 text-black px-3 py-1 rounded hover:bg-yellow-500"
+                        >
+                          Edit
+                        </button>
+                        <button
+                          onClick={() => handleDelete(item.kode_proyektor)}
+                          className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
+                        >
+                          Hapus
+                        </button>
+                   </td>
+                    )}
+                  
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+
+             <button
+            onClick={() => {
+              handleResetFilter();
+              setShowFilter(false);
+            }}
+            className="mt-4 bg-gray-200 px-4 py-2 rounded hover:bg-gray-300"
+          >
+            Kembali ke halaman utama
+          </button>
+          </div>
+        </>
+      )}
 
       <Footer />
     </>
