@@ -2,19 +2,25 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 
 export default function Login() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [activeTab, setActiveTab] = useState('login');
   const router = useRouter();
 
-  const handleLoginSubmit = (e) => {
+  const handleLoginSubmit = async (e) => {
     e.preventDefault();
-    router.push('/'); 
+    // Simpan status login di localStorage
+    localStorage.setItem('isLoggedIn', 'true');
+    setIsLoggedIn(true);
+  
+    // Ganti push menjadi replace agar user tidak bisa kembali ke halaman login setelah login
+    router.replace('/');
   };
+  
 
   return (
     <div className="min-h-screen bg-gray-900 flex items-center justify-center">
       <div className="container mx-auto px-4">
         {activeTab === 'login' ? (
-      
           <div className="max-w-md mx-auto">
             <div className="mb-6 text-center">
               <div className="flex items-center justify-center mb-2">
@@ -33,7 +39,7 @@ export default function Login() {
 
               <form className="space-y-6" onSubmit={handleLoginSubmit}>
                 <div>
-                  <label className="block text-gray-700 font-medium mb-2">username</label>
+                  <label className="block text-gray-700 font-medium mb-2">Username</label>
                   <input
                     type="text"
                     className="w-full px-3 py-2 bg-white border border-gray-300 rounded-md focus:outline-none"
@@ -42,7 +48,7 @@ export default function Login() {
                 </div>
 
                 <div>
-                  <label className="block text-gray-700 font-medium mb-2">password</label>
+                  <label className="block text-gray-700 font-medium mb-2">Password</label>
                   <input
                     type="password"
                     className="w-full px-3 py-2 bg-white border border-gray-300 rounded-md focus:outline-none"
@@ -52,28 +58,16 @@ export default function Login() {
 
                 <div className="flex justify-between pt-4">
                   <button
-                    type="button"
-                    onClick={() => setActiveTab('signup')}
-                    className="bg-green-500 hover:bg-green-600 text-black px-6 py-2 rounded-md text-sm font-medium"
-                  >
-                    SIGN UP
-                  </button>
-
-                  <button
                     type="submit"
-                    className="bg-green-500 hover:bg-green-600 text-black px-6 py-2 rounded-md text-sm font-medium"
+                    className="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-6 rounded-md transition duration-300"
                   >
-                    CONFIRM
+                    Masuk
                   </button>
                 </div>
               </form>
             </div>
           </div>
-        ) : (
-          <div className="max-w-md mx-auto">
-            {}
-          </div>
-        )}
+        ) : null}
       </div>
     </div>
   );

@@ -1,10 +1,13 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
+import Login from './login'; // Import komponen Login
 
 export default function Home() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isCheckingLogin, setIsCheckingLogin] = useState(true);
   const [showForm, setShowForm] = useState(false);
   const [searchParams, setSearchParams] = useState({
     kodeInfokus: '',
@@ -21,6 +24,21 @@ export default function Home() {
     { kode: "INF-2023-R101-005", merek: "Sony", seri: "SN-005", status: "Sedang dipakai" },
   ]);
   const router = useRouter();
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const loggedInStatus = localStorage.getItem('isLoggedIn');
+      console.log('Logged in status:', loggedInStatus); // Log status login
+      if (loggedInStatus === 'true') {
+        setIsLoggedIn(true);
+      } else {
+        router.replace('/login');
+      }
+      setIsCheckingLogin(false);
+    }
+  }, [router]);
+  
+  
 
   const toggleForm = () => {
     setShowForm(!showForm);
@@ -48,12 +66,22 @@ export default function Home() {
     setFilteredItems(filtered);
     setShowSearchPopup(false);
   };
+  if (isCheckingLogin) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <p className="text-gray-600">Memuat...</p>
+      </div>
+    );
+  }
 
+  if (!isLoggedIn) {
+    return <Login />; 
+  }
+  
   return (
     <>
       <Header />
-      
-      {/* Navbar */}
+
       <nav className="bg-gray-800 px-6 py-3 flex flex-col sm:flex-row items-center justify-between shadow-md">
         <div className="flex gap-6 items-center">
           <Link href="/" className="text-white font-bold text-lg">HOME</Link>
@@ -62,7 +90,7 @@ export default function Home() {
           <Link href="/kegiatan" className="text-white font-bold text-lg">KEGIATAN</Link>
           <Link href="/riwayat" className="text-white font-bold text-lg">RIWAYAT</Link>
         </div>
-        
+
         <div className="mt-3 sm:mt-0 flex items-center gap-3">
           <div className="relative">
             <input
@@ -71,9 +99,7 @@ export default function Home() {
               className="pl-4 pr-10 py-2 rounded-lg bg-white text-black focus:outline-none"
               onClick={() => setShowSearchPopup(true)}
             />
-            <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-black">
-              🔍
-            </span>
+            <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-black">🔍</span>
           </div>
           <button 
             onClick={toggleForm}
@@ -84,76 +110,73 @@ export default function Home() {
         </div>
       </nav>
 
-      {/* Search Popup */}
       {showSearchPopup && (
-  <div className="flex justify-center mt-4">
-    <div className="bg-white border border-gray-300 shadow-md p-6 rounded-lg w-full max-w-xl">
-      <h2 className="text-lg font-semibold mb-2">Filter</h2>
-      <form className="space-y-3 text-sm">
-        <div>
-          <label className="block text-gray-700 mb-1">Kode Infokus</label>
-          <input
-            type="text"
-            className="w-full px-3 py-1.5 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
-            value={searchParams.kodeInfokus}
-            onChange={(e) => setSearchParams({ ...searchParams, kodeInfokus: e.target.value })}
-          />
-        </div>
-        <div>
-          <label className="block text-gray-700 mb-1">Kode Transaksi</label>
-          <input
-            type="text"
-            className="w-full px-3 py-1.5 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
-            value={searchParams.kodeTransaksi}
-            onChange={(e) => setSearchParams({ ...searchParams, kodeTransaksi: e.target.value })}
-          />
-        </div>
-        <div>
-          <label className="block text-gray-700 mb-1">NIK</label>
-          <input
-            type="text"
-            className="w-full px-3 py-1.5 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
-            value={searchParams.nik}
-            onChange={(e) => setSearchParams({ ...searchParams, nik: e.target.value })}
-          />
-        </div>
-        <div>
-          <label className="block text-gray-700 mb-1">Status</label>
-          <select
-            className="w-full px-3 py-1.5 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
-            value={searchParams.status}
-            onChange={(e) => setSearchParams({ ...searchParams, status: e.target.value })}
-          >
-            <option value="">Semua</option>
-            <option value="Tersedia">Tersedia</option>
-            <option value="Sedang dipakai">Sedang dipakai</option>
-            <option value="Rusak">Rusak</option>
-          </select>
-        </div>
+        <div className="flex justify-center mt-4">
+          <div className="bg-white border border-gray-300 shadow-md p-6 rounded-lg w-full max-w-xl">
+            <h2 className="text-lg font-semibold mb-2">Filter</h2>
+            <form className="space-y-3 text-sm">
+              <div>
+                <label className="block text-gray-700 mb-1">Kode Infokus</label>
+                <input
+                  type="text"
+                  className="w-full px-3 py-1.5 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
+                  value={searchParams.kodeInfokus}
+                  onChange={(e) => setSearchParams({ ...searchParams, kodeInfokus: e.target.value })}
+                />
+              </div>
+              <div>
+                <label className="block text-gray-700 mb-1">Kode Transaksi</label>
+                <input
+                  type="text"
+                  className="w-full px-3 py-1.5 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
+                  value={searchParams.kodeTransaksi}
+                  onChange={(e) => setSearchParams({ ...searchParams, kodeTransaksi: e.target.value })}
+                />
+              </div>
+              <div>
+                <label className="block text-gray-700 mb-1">NIK</label>
+                <input
+                  type="text"
+                  className="w-full px-3 py-1.5 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
+                  value={searchParams.nik}
+                  onChange={(e) => setSearchParams({ ...searchParams, nik: e.target.value })}
+                />
+              </div>
+              <div>
+                <label className="block text-gray-700 mb-1">Status</label>
+                <select
+                  className="w-full px-3 py-1.5 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
+                  value={searchParams.status}
+                  onChange={(e) => setSearchParams({ ...searchParams, status: e.target.value })}
+                >
+                  <option value="">Semua</option>
+                  <option value="Tersedia">Tersedia</option>
+                  <option value="Sedang dipakai">Sedang dipakai</option>
+                  <option value="Rusak">Rusak</option>
+                </select>
+              </div>
 
-        <div className="flex justify-end gap-2 pt-2">
-          <button 
-            type="button"
-            onClick={() => setShowSearchPopup(false)}
-            className="text-gray-500 text-sm hover:underline"
-          >
-            Tutup
-          </button>
-          <button 
-            type="button" 
-            onClick={handleSearch}
-            className="bg-blue-500 text-white px-4 py-1.5 rounded-md hover:bg-blue-600 text-sm"
-          >
-            Cari
-          </button>
+              <div className="flex justify-end gap-2 pt-2">
+                <button 
+                  type="button"
+                  onClick={() => setShowSearchPopup(false)}
+                  className="text-gray-500 text-sm hover:underline"
+                >
+                  Tutup
+                </button>
+                <button 
+                  type="button" 
+                  onClick={handleSearch}
+                  className="bg-blue-500 text-white px-4 py-1.5 rounded-md hover:bg-blue-600 text-sm"
+                >
+                  Cari
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
-      </form>
-    </div>
-  </div>
-)}
+      )}
 
-
-      {/* Form Proyektor Popup */}
       {showForm && (
         <div className="container mx-auto px-4 py-4">
           <div className="bg-white rounded-lg shadow-lg p-6 max-w-md mx-auto">
@@ -171,7 +194,6 @@ export default function Home() {
                 <label className="block text-gray-700 mb-2">Kode Seri Proyektor</label>
                 <input type="text" className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Input Kode Seri Proyektor" />
               </div>
-
               <div className="flex justify-between">
                 <button 
                   type="button" 
@@ -194,8 +216,6 @@ export default function Home() {
             <div className="py-3 border-r border-gray-300">No. Seri</div>
             <div className="py-3">Status</div>
           </div>
-
-          {/* Display filtered items */}
           {filteredItems.map((item, index) => (
             <div key={index} className="grid grid-cols-4 border-t border-gray-200 text-center hover:bg-gray-50 transition">
               <div className="py-3 border-r border-gray-200">{item.kode}</div>
