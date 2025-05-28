@@ -19,11 +19,12 @@ export default function Transaksi() {
     status: 'belum dikembalikan',
   });
   const router = useRouter();
+  const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
   useEffect(() => {
   const token = localStorage.getItem('token');
 
-  fetch('http://localhost:3001/transaksi', {
+  fetch(`${BASE_URL}/transaksi`, {
     headers: {
       'Authorization': `Bearer ${token}`, // Tambah header token
       'Content-Type': 'application/json',
@@ -52,7 +53,7 @@ export default function Transaksi() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch('http://localhost:3001/transaksi', {
+      const res = await fetch(`${BASE_URL}/transaksi`, {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',
@@ -85,7 +86,7 @@ export default function Transaksi() {
     if (!confirm('Yakin hapus transaksi ini?')) return;
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch(`http://localhost:3001/transaksi/${kode_transaksi}`, {
+      const res = await fetch(`${BASE_URL}/transaksi/${kode_transaksi}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -102,7 +103,7 @@ export default function Transaksi() {
 const handleKembalikan = async (kode_transaksi) => {
   try {
     const token = localStorage.getItem('token');
-    const res = await fetch(`http://localhost:3001/transaksi/${kode_transaksi}`, {
+    const res = await fetch(`${BASE_URL}/transaksi/${kode_transaksi}`, {
       method: 'PATCH',
       headers: {
         'Authorization': `Bearer ${token}`,

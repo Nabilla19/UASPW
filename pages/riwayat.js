@@ -10,6 +10,7 @@ export default function RiwayatPage() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [riwayatData, setRiwayatData] = useState([]);
   const [loadingData, setLoadingData] = useState(true);
+  const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
   useEffect(() => {
   const fetchRiwayat = async () => {
@@ -17,7 +18,7 @@ export default function RiwayatPage() {
       const token = localStorage.getItem('token');
       if (!token) throw new Error('Token tidak ditemukan. Harap login.');
 
-      const res = await fetch('http://localhost:3001/riwayat', {
+      const res = await fetch(`${BASE_URL}/riwayat`, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json',
