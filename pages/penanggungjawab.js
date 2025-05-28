@@ -17,6 +17,7 @@ export default function PenanggungJawab() {
   const [editData, setEditData] = useState(null);
 
   const router = useRouter();
+  const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
  useEffect(() => {
   const fetchPenanggungJawab = async () => {
@@ -24,7 +25,7 @@ export default function PenanggungJawab() {
       const token = localStorage.getItem('token');
       if (!token) throw new Error('Token tidak ditemukan. Harap login.');
 
-      const res = await fetch('http://localhost:3001/pj', {
+      const res = await fetch(`${BASE_URL}/pj`, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json',
@@ -68,7 +69,7 @@ export default function PenanggungJawab() {
 
     if (editMode) {
       // UPDATE (PUT)
-      const res = await fetch(`http://localhost:3001/pj/${data.nik}`, {
+      const res = await fetch(`${BASE_URL}/pj/${data.nik}`, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -85,7 +86,7 @@ export default function PenanggungJawab() {
       setAllItems(prev => prev.map(item => item.nik === data.nik ? data : item));
     } else {
       // CREATE (POST)
-      const res = await fetch('http://localhost:3001/pj', {
+      const res = await fetch(`${BASE_URL}/pj`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -120,7 +121,7 @@ const handleDelete = async (nik) => {
     const token = localStorage.getItem('token');
     if (!token) throw new Error("Anda belum login!");
 
-    const res = await fetch(`http://localhost:3001/pj/${nik}`, {
+    const res = await fetch(`${BASE_URL}/pj/${nik}`, {
       method: 'DELETE',
       headers: {
         'Authorization': `Bearer ${token}`,

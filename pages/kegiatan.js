@@ -15,6 +15,7 @@ export default function Kegiatan() {
   const [editMode, setEditMode] = useState(false);
   const [editData, setEditData] = useState(null);
   const router = useRouter();
+  const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
   
 
@@ -25,7 +26,7 @@ export default function Kegiatan() {
       const token = localStorage.getItem('token');
       if (!token) throw new Error('Token tidak ditemukan. Harap login.');
 
-      const res = await fetch('http://localhost:3001/kegiatan', {
+      const res = await fetch(`${BASE_URL}/kegiatan`, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json',
@@ -67,7 +68,7 @@ export default function Kegiatan() {
 
     if (editMode) {
       // UPDATE (PUT)
-      const res = await fetch(`http://localhost:3001/kegiatan/${kegiatanBaru.kode_transaksi}`, {
+      const res = await fetch(`${BASE_URL}/kegiatan/${kegiatanBaru.kode_transaksi}`, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -94,7 +95,7 @@ export default function Kegiatan() {
       );
     } else {
       // CREATE (POST)
-      const res = await fetch('http://localhost:3001/kegiatan', {
+      const res = await fetch(`${BASE_URL}/kegiatan`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -129,7 +130,7 @@ export default function Kegiatan() {
     const token = localStorage.getItem('token');
     if (!token) throw new Error("Anda belum login!");
 
-    const res = await fetch(`http://localhost:3001/kegiatan/${kode_transaksi}`, {
+    const res = await fetch(`${BASE_URL}/kegiatan/${kode_transaksi}`, {
       method: 'DELETE',
       headers: {
         'Authorization': `Bearer ${token}`,

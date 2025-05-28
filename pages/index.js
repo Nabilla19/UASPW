@@ -23,12 +23,14 @@ export default function Home() {
   const [allItems, setAllItems] = useState([]);
   const [filteredItems, setFilteredItems] = useState([]);
   const router = useRouter();
+  const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+
   
   // Ambil data dari backend
 useEffect(() => {
   const token = localStorage.getItem('token');
 
-  fetch('http://localhost:3001/proyektor', {
+  fetch(`${BASE_URL}/proyektor`, {
     headers: {
       'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json',
@@ -73,7 +75,7 @@ useEffect(() => {
 
   if (editMode) {
     // PUT request untuk update data
-    const res = await fetch(`http://localhost:3001/proyektor/${proyektorbaru.kode_proyektor}`, {
+    const res = await fetch(`${BASE_URL}/proyektor/${proyektorbaru.kode_proyektor}`, {
       method: 'PUT',
       headers: {
         'Authorization': `Bearer ${token}`,
@@ -96,7 +98,7 @@ useEffect(() => {
     );
   } else {
     // POST request untuk tambah data baru
-    const res = await fetch('http://localhost:3001/proyektor', {
+    const res = await fetch(`${BASE_URL}/proyektor`, {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${token}`,
@@ -126,7 +128,7 @@ useEffect(() => {
     const token = localStorage.getItem('token'); // Ambil token dari localStorage
     if (!token) throw new Error("Anda belum login!"); // Handle jika token tidak ada
 
-    const res = await fetch(`http://localhost:3001/proyektor/${kode}`, {
+    const res = await fetch(`${BASE_URL}/proyektor/${kode}`, {
       method: 'DELETE',
       headers: {
         'Authorization': `Bearer ${token}`,
