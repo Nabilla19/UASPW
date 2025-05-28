@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import Link from 'next/link';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, History, Calendar, User, Activity, Clock, ArrowLeft } from 'lucide-react';
 import useAuth from '../components/hooks/useAuth';
 
 export default function RiwayatPage() {
@@ -13,106 +13,213 @@ export default function RiwayatPage() {
   const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
   useEffect(() => {
-  const fetchRiwayat = async () => {
-    try {
-      const token = localStorage.getItem('token');
-      if (!token) throw new Error('Token tidak ditemukan. Harap login.');
+    const fetchRiwayat = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        if (!token) throw new Error('Token tidak ditemukan. Harap login.');
 
-      const res = await fetch(`${BASE_URL}/riwayat`, {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-      });
+        const res = await fetch(`${BASE_URL}/riwayat`, {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        });
 
-      if (!res.ok) throw new Error('Gagal mengambil data riwayat');
+        if (!res.ok) throw new Error('Gagal mengambil data riwayat');
 
-      const data = await res.json();
-      setRiwayatData(Array.isArray(data) ? data : []);
-    } catch (error) {
-      console.error('Gagal memuat data riwayat:', error);
-      setRiwayatData([]); // fallback agar tidak error .map()
-    } finally {
-      setLoadingData(false);
-    }
-  };
+        const data = await res.json();
+        setRiwayatData(Array.isArray(data) ? data : []);
+      } catch (error) {
+        console.error('Gagal memuat data riwayat:', error);
+        setRiwayatData([]); // fallback agar tidak error .map()
+      } finally {
+        setLoadingData(false);
+      }
+    };
 
-  fetchRiwayat();
-}, []);
-
+    fetchRiwayat();
+  }, []);
 
   return (
-    <>
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
       <Header />
 
-      {/* Navbar Responsif */}
-      <nav className="bg-gray-800 px-6 py-3 shadow-md">
-        <div className="flex justify-between items-center">
-          <button className="sm:hidden text-white" onClick={() => setMenuOpen(!menuOpen)}>
-            {menuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+      {/* Enhanced Navbar */}
+<nav className="bg-gradient-to-r from-gray-800 via-gray-900 to-black px-6 py-4 shadow-xl">
+        <div className="flex justify-between items-center max-w-7xl mx-auto">
+          <div className="flex items-center">
+            <button
+              className="sm:hidden text-white mr-4 hover:bg-gray-700 p-2 rounded-lg transition-colors duration-200"
+              onClick={() => setMenuOpen(!menuOpen)}
+            >
+              {menuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
 
-          <div className="hidden sm:flex gap-6 items-center w-full justify-start">
-            <Link href="/" className="text-white font-bold text-lg">HOME</Link>
-            <Link href="/transaksi" className="text-white font-bold text-lg">TRANSAKSI</Link>
-            <Link href="/penanggungjawab" className="text-white font-bold text-lg">PENANGGUNG JAWAB</Link>
-            <Link href="/kegiatan" className="text-white font-bold text-lg">KEGIATAN</Link>
-            <Link href="/riwayat" className="text-white font-bold text-lg">RIWAYAT</Link>
-            <Link href="/profile" className="text-white font-bold text-lg">PROFILE</Link>
+            <div className="hidden sm:flex gap-2 items-center">
+              <Link href="/" className="text-gray-300 font-semibold text-sm px-4 py-2 rounded-lg hover:bg-gray-700 hover:text-white transform hover:scale-105 transition-all duration-200">HOME</Link>
+              <Link href="/transaksi" className="text-gray-300 font-semibold text-sm px-4 py-2 rounded-lg hover:bg-gray-700 hover:text-white transform hover:scale-105 transition-all duration-200">TRANSAKSI</Link>
+              <Link href="/penanggungjawab" className="text-gray-300 font-semibold text-sm px-4 py-2 rounded-lg hover:bg-gray-700 hover:text-white transform hover:scale-105 transition-all duration-200">PENANGGUNG JAWAB</Link>
+              <Link href="/kegiatan" className="text-gray-300 font-semibold text-sm px-4 py-2 rounded-lg hover:bg-gray-700 hover:text-white transform hover:scale-105 transition-all duration-200">KEGIATAN</Link>
+              <Link href="/riwayat" className="text-white font-bold text-sm px-4 py-2 rounded-lg bg-green-600 hover:bg-green-700 transform hover:scale-105 transition-all duration-200 shadow-lg">RIWAYAT</Link>
+              <Link href="/profile" className="text-gray-300 font-semibold text-sm px-4 py-2 rounded-lg hover:bg-gray-700 hover:text-white transform hover:scale-105 transition-all duration-200">PROFILE</Link>
+            </div>
           </div>
+
+          {!loading && userRole === 'ADMIN' && (
+            <button
+              onClick={toggleForm}
+              className="bg-gradient-to-r from-indigo-500 to-purple-600 text-white p-3 rounded-full shadow-lg hover:shadow-xl transform hover:scale-110 transition-all duration-200 flex items-center justify-center group"
+              aria-label="Tambah proyektor"
+            >
+              <Plus size={20} className="group-hover:rotate-90 transition-transform duration-200" />
+            </button>
+          )}
         </div>
 
         {menuOpen && (
-          <div className="sm:hidden flex flex-col mt-2 space-y-2 items-end">
-            <Link href="/" className="text-white font-bold text-lg">HOME</Link>
-            <Link href="/transaksi" className="text-white font-bold text-lg">TRANSAKSI</Link>
-            <Link href="/penanggungjawab" className="text-white font-bold text-lg">PENANGGUNG JAWAB</Link>
-            <Link href="/kegiatan" className="text-white font-bold text-lg">KEGIATAN</Link>
-            <Link href="/riwayat" className="text-white font-bold text-lg">RIWAYAT</Link>
-            <Link href="/profile" className="text-white font-bold text-lg">PROFILE</Link>
+          <div className="sm:hidden flex flex-col mt-4 space-y-2 items-start bg-gray-800 rounded-lg p-4 border-t border-gray-700">
+            <Link href="/" className="text-gray-300 font-semibold text-sm px-4 py-2 rounded-lg hover:bg-gray-700 hover:text-white w-full text-center transition-colors duration-200">HOME</Link>
+            <Link href="/transaksi" className="text-gray-300 font-semibold text-sm px-4 py-2 rounded-lg hover:bg-gray-700 hover:text-white w-full text-center transition-colors duration-200">TRANSAKSI</Link>
+            <Link href="/penanggungjawab" className="text-gray-300 font-semibold text-sm px-4 py-2 rounded-lg hover:bg-gray-700 hover:text-white w-full text-center transition-colors duration-200">PENANGGUNG JAWAB</Link>
+            <Link href="/kegiatan" className="text-gray-300 font-semibold text-sm px-4 py-2 rounded-lg hover:bg-gray-700 hover:text-white w-full text-center transition-colors duration-200">KEGIATAN</Link>
+            <Link href="/riwayat" className="text-white font-bold text-sm px-4 py-2 rounded-lg bg-green-600 hover:bg-green-400 w-full text-center transition-colors duration-200">RIWAYAT</Link>
+            <Link href="/profile" className="text-gray-300 font-semibold text-sm px-4 py-2 rounded-lg hover:bg-gray-700 hover:text-white w-full text-center transition-colors duration-200">PROFILE</Link>
           </div>
         )}
       </nav>
 
-      {/* Tabel Riwayat */}
-      <main className="container mx-auto px-4 py-8">
-        <div className="overflow-x-auto px-6 max-w-5xl mx-auto mb-12 mt-6">
-        <table className="w-full border-collapse border border-gray-300 text-center text-sm">
-              <thead className="bg-gray-800 text-white">
-                <tr>
-                  <th className="border border-gray-300 py-2">Kode Transaksi</th>
-                  <th className="border border-gray-300 py-2">Kode Proyektor</th>
-                  <th className="border border-gray-300 py-2">Nama</th>
-                  <th className="border border-gray-300 py-2">Kegiatan</th>
-                  <th className="border border-gray-300 py-2">Waktu Dipinjam</th>
-                  <th className="border border-gray-300 py-2">Waktu Dikembalikan</th>
-                </tr>
-              </thead>
-              <tbody>
-                {riwayatData.map((item, i) => (
-                  <tr key={i} className="text-center hover:bg-gray-100 transition">
-                    <td className="border border-gray-300 py-2">{item.kode_transaksi}</td>
-                    <td className="border border-gray-300 py-2">{item.kode_proyektor}</td>
-                    <td className="border border-gray-300 py-2">{item.nama}</td>
-                    <td className="border border-gray-300 py-2">{item.kegiatan}</td>
-                    <td className="border border-gray-300 py-2">{item.waktu}</td>
-                     <td className="border border-gray-300 py-2">{item.waktu_dikembalikan}</td>
-                     
-                  </tr>
-                  
-                ))}
-
-                <tr>
-                <td colSpan={6} className="py-4 text-gray-500">Tidak ada data</td>
-              </tr>
-              </tbody>
-               
-            </table>
-      
+      {/* Enhanced Main Content */}
+      <main className="container mx-auto px-4 py-12 max-w-7xl">
+        {/* Header Section */}
+        <div className="text-start mb-12">
+          <div>
+            <h1 className="text-3xl font-bold text-black">
+              Riwayat Peminjaman
+            </h1>
+          </div>
+          <p className="text-gray-600 text-lg">Lihat semua riwayat peminjaman proyektor Anda</p>
         </div>
+
+        {/* Enhanced Table Container */}
+        <div className="bg-white rounded-2xl shadow-xl border border-gray-200 overflow-hidden">
+          {/* Loading State */}
+          {loadingData ? (
+            <div className="flex justify-center items-center py-20">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+              <span className="ml-4 text-gray-600 text-lg">Memuat data...</span>
+            </div>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead className="bg-gradient-to-r from-green-400 to-green-600">
+                  <tr>
+                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700 border-b border-gray-200">
+                      <div className="flex items-center gap-2">
+                        Kode Transaksi
+                      </div>
+                    </th>
+                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700 border-b border-gray-200">
+                      <div className="flex items-center gap-2">
+                        Kode Proyektor
+                      </div>
+                    </th>
+                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700 border-b border-gray-200">
+                      <div className="flex items-center gap-2">
+                        Nama
+                      </div>
+                    </th>
+                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700 border-b border-gray-200">
+                      <div className="flex items-center gap-2">
+                        Kegiatan
+                      </div>
+                    </th>
+                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700 border-b border-gray-200">
+                      <div className="flex items-center gap-2">
+                        Waktu Dipinjam
+                      </div>
+                    </th>
+                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700 border-b border-gray-200">
+                      <div className="flex items-center gap-2">
+                        Waktu Dikembalikan
+                      </div>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-100">
+                  {riwayatData.length > 0 ? (
+                    riwayatData.map((item, i) => (
+                      <tr key={i} className="hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 transition-all duration-300 group">
+                        <td className="px-6 py-4 text-sm text-gray-800 font-medium">
+                          <div className="flex items-center gap-2">
+                            
+                            {item.kode_transaksi}
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 text-sm text-gray-800">
+                          <span className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-xs font-medium">
+                            {item.kode_proyektor}
+                          </span>
+                        </td>
+                        <td className="px-6 py-4 text-sm text-gray-800 font-medium">{item.nama}</td>
+                        <td className="px-6 py-4 text-sm text-gray-600">
+                          <span className="px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-xs">
+                            {item.kegiatan}
+                          </span>
+                        </td>
+                        <td className="px-6 py-4 text-sm text-gray-600">
+                          <div className="flex items-center gap-2">
+                            {item.waktu}
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 text-center text-gray-600">
+                        {item.waktu_dikembalikan ? (
+                          <div className="flex flex-col">
+                            <span>{new Date(item.waktu_dikembalikan).toLocaleDateString()}</span>
+                            <span className="text-xs text-gray-400">{new Date(item.waktu_dikembalikan).toLocaleTimeString()}</span>
+                          </div>
+                        ) : (
+                          <span className="text-gray-400">-</span>
+                        )}
+                      </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td>
+                        <div className="flex flex-col items-center gap-4">
+                          <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center">
+                          </div>
+                          <div>
+                            <p className="text-gray-500 text-lg font-medium mb-2">Tidak ada data riwayat</p>
+                            <p className="text-gray-400 text-sm">Belum ada transaksi peminjaman yang tercatat</p>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
+
+        {/* Stats Card */}
+        {riwayatData.length > 0 && (
+          <div className="mt-8 bg-gradient-to-r from-green-400 to-green-600 rounded-2xl p-6 text-white shadow-xl">
+            <div className="flex items-center justify-between">
+              <div>
+                <h3 className="text-lg font-semibold mb-2">Total Riwayat</h3>
+                <p className="text-3xl font-bold">{riwayatData.length}</p>
+              </div>
+              <div className="bg-white bg-opacity-20 rounded-full p-4">
+                <History size={32} />
+              </div>
+            </div>
+          </div>
+        )}
       </main>
 
       <Footer />
-    </>
+    </div>
   );
 }
