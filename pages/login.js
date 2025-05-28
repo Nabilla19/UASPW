@@ -66,86 +66,101 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 flex items-center justify-center">
-      <div className="container mx-auto px-4">
-        <div className="max-w-md mx-auto">
-          <div className="mb-6 text-center">
+    <div className="min-h-screen bg-gradient-to-br from-green-50 to-green-100 flex items-center justify-center p-4">
+      <div className="w-full max-w-md">
+        <div className="bg-white rounded-xl shadow-2xl overflow-hidden">
+          {/* Header with gradient */}
+          <div className="bg-gradient-to-r from-green-400 to-green-600 p-6 text-center">
             <div className="flex items-center justify-center mb-2">
               <img src="/logo-uin.png" alt="Logo UIN" className="h-10" />
               <h2 className="text-white text-xl ml-2 font-medium">FAKULTAS</h2>
             </div>
-            <p className="text-white text-sm">Selamat datang di</p>
-            <h1 className="text-white text-5xl font-mono mt-1">Proyek.in</h1>
+            <p className="text-white text-sm opacity-90">Selamat datang di</p>
+            <h1 className="text-white text-4xl font-mono mt-1 font-bold">Proyek.in</h1>
           </div>
 
-          <div className="bg-gray-200 rounded-lg p-8">
-            <div className="mb-6">
-              <h2 className="text-2xl font-bold mb-1 text-center">
-                {activeTab === 'login' ? 'LOGIN' : 'SIGN UP'}
-              </h2>
-              <div className="h-1 w-full bg-green-500 mx-auto"></div>
+          <div className="p-8">
+            {/* Tabs */}
+            <div className="flex mb-6 border-b border-gray-200">
+              <button
+                onClick={() => setActiveTab('login')}
+                className={`flex-1 py-2 font-medium text-sm ${activeTab === 'login' ? 'text-green-600 border-b-2 border-green-500' : 'text-gray-500 hover:text-green-500'}`}
+              >
+                LOGIN
+              </button>
+              <button
+                onClick={() => setActiveTab('signup')}
+                className={`flex-1 py-2 font-medium text-sm ${activeTab === 'signup' ? 'text-green-600 border-b-2 border-green-500' : 'text-gray-500 hover:text-green-500'}`}
+              >
+                SIGN UP
+              </button>
             </div>
 
             {error && (
-              <div className="text-red-600 text-sm mb-4 text-center">{error}</div>
+              <div className="bg-red-50 border-l-4 border-red-500 text-red-700 p-3 mb-4 rounded">
+                <p className="text-sm">{error}</p>
+              </div>
             )}
 
             <form
-              className="space-y-6"
+              className="space-y-5"
               onSubmit={activeTab === 'login' ? handleLoginSubmit : handleRegisterSubmit}
             >
               {activeTab === 'signup' && (
-                <div>
-                  <label className="block text-gray-700 font-medium mb-2">Nama</label>
+                <div className="space-y-1">
+                  <label className="block text-gray-700 text-sm font-medium">Nama</label>
                   <input
                     type="text"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className="w-full px-3 py-2 bg-white border border-gray-300 rounded-md focus:outline-none"
+                    className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
                     required
                   />
                 </div>
               )}
 
-              <div>
-                <label className="block text-gray-700 font-medium mb-2">Email</label>
+              <div className="space-y-1">
+                <label className="block text-gray-700 text-sm font-medium">Email</label>
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full px-3 py-2 bg-white border border-gray-300 rounded-md focus:outline-none"
+                  className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
                   required
                 />
               </div>
 
-              <div>
-                <label className="block text-gray-700 font-medium mb-2">Password</label>
+              <div className="space-y-1">
+                <label className="block text-gray-700 text-sm font-medium">Password</label>
                 <input
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full px-3 py-2 bg-white border border-gray-300 rounded-md focus:outline-none"
+                  className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
                   required
                 />
               </div>
 
-              <div className="flex justify-between pt-4">
-                <button
-                  type="button"
-                  onClick={() => setActiveTab(activeTab === 'login' ? 'signup' : 'login')}
-                  className="bg-green-500 hover:bg-green-600 text-black px-6 py-2 rounded-md text-sm font-medium"
-                >
-                  {activeTab === 'login' ? 'SIGN UP' : 'LOGIN'}
-                </button>
-
+              <div className="pt-2">
                 <button
                   type="submit"
-                  className="bg-green-500 hover:bg-green-600 text-black px-6 py-2 rounded-md text-sm font-medium"
+                  className="w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white py-3 px-4 rounded-lg font-medium shadow-md hover:shadow-lg transition-all duration-300"
                 >
-                  CONFIRM
+                  {activeTab === 'login' ? 'LOGIN' : 'REGISTER'}
                 </button>
               </div>
             </form>
+
+            <div className="mt-6 text-center">
+              <button
+                onClick={() => setActiveTab(activeTab === 'login' ? 'signup' : 'login')}
+                className="text-sm text-green-600 hover:text-green-800 font-medium transition-colors"
+              >
+                {activeTab === 'login' 
+                  ? 'Belum punya akun? Daftar disini' 
+                  : 'Sudah punya akun? Login disini'}
+              </button>
+            </div>
           </div>
         </div>
       </div>
