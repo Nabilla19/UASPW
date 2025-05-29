@@ -193,7 +193,6 @@ export default function Kegiatan() {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50">
       <Header />
       
-      {/* Enhanced Navigation */}
       {/* Enhanced Navbar */}
       <nav className="bg-gradient-to-r from-gray-800 via-gray-900 to-black px-6 py-4 shadow-xl">
         <div className="flex justify-between items-center max-w-7xl mx-auto">
@@ -380,15 +379,14 @@ export default function Kegiatan() {
                       </td>
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-2 text-gray-600">
-                          <MapPin size={16} className="text-gray-400" />
                           {item.tempat}
                         </div>
                       </td>
                       <td className="px-6 py-4">
-                        <div className="flex items-center gap-2 text-gray-600">
-                          <Clock size={16} className="text-gray-400" />
-                          {formatDateTimeDisplay(item.waktu)}
-                        </div>
+                        <div className="flex flex-col">
+                            <span>{new Date(item.waktu).toLocaleDateString()}</span>
+                            <span className="text-xs text-gray-400">{new Date(item.waktu_dikembalikan).toLocaleTimeString()}</span>
+                          </div>
                       </td>
                       {userRole === 'ADMIN' && (
                         <td className="px-6 py-4">
