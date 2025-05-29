@@ -166,7 +166,10 @@ export default function RiwayatPage() {
                         </td>
                         <td className="px-6 py-4 text-sm text-gray-600">
                           <div className="flex items-center gap-2">
-                            {item.waktu}
+                            {item.waktu}<div className="flex flex-col">
+                            <span>{new Date(item.waktu_dikembalikan).toLocaleDateString()}</span>
+                            <span className="text-xs text-gray-400">{new Date(item.waktu_dikembalikan).toLocaleTimeString()}</span>
+                          </div>
                           </div>
                         </td>
                         <td className="px-6 py-4 text-center text-gray-600">
