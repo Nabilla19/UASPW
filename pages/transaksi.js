@@ -12,7 +12,11 @@ export default function Transaksi() {
   const [showForm, setShowForm] = useState(false);
   const { userRole, loading } = useAuth();
   const [allItems, setAllItems] = useState([]);
+  const [editMode, setEditMode] = useState(false);
+  const [editData, setEditData] = useState(null);
+
   const [formData, setFormData] = useState({
+
     kode_transaksi: '',
     kode_proyektor: '',
     nik: '',
@@ -20,7 +24,11 @@ export default function Transaksi() {
   });
   const router = useRouter();
   const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
-
+  const toggleForm = () => {
+    setEditMode(false);
+    setEditData(null);
+    setShowForm(!showForm);
+  };
   useEffect(() => {
     const token = localStorage.getItem('token');
 
@@ -138,7 +146,7 @@ export default function Transaksi() {
   if (loading) return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 flex justify-center items-center">
       <div className="flex flex-col items-center space-y-4">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600"></div>
         <p className="text-gray-600 font-medium">Loading...</p>
       </div>
     </div>
@@ -172,7 +180,7 @@ export default function Transaksi() {
           {!loading && userRole === 'ADMIN' && (
             <button
               onClick={toggleForm}
-              className="bg-gradient-to-r from-indigo-500 to-purple-600 text-white p-3 rounded-full shadow-lg hover:shadow-xl transform hover:scale-110 transition-all duration-200 flex items-center justify-center group"
+              className="bg-gradient-to-r from-green-400 to-green-600 text-white p-3 rounded-full shadow-lg hover:shadow-xl transform hover:scale-110 transition-all duration-200 flex items-center justify-center group"
               aria-label="Tambah proyektor"
             >
               <Plus size={20} className="group-hover:rotate-90 transition-transform duration-200" />
@@ -202,35 +210,34 @@ export default function Transaksi() {
 
         {/* Enhanced Form */}
         {showForm && (
-          <div className="mb-8 animate-fadeIn">
-            <div className="bg-white/80 backdrop-blur-sm border border-gray-200/50 rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="p-2 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg">
-                  <Plus size={20} className="text-white" />
-                </div>
-                <h2 className="text-2xl font-bold text-gray-800">Tambah Transaksi Baru</h2>
+          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md transform transition-all duration-300 scale-100">
+            <div className="bg-gradient-to-r from-green-400 to-green-600 p-6 rounded-t-2xl">
+              <h2 className="text-2xl font-bold text-white flex items-center gap-3">
+              
+                {editMode ? 'Edit' : 'Tambah'} Transaksi
+              </h2>
               </div>
               
-              <form onSubmit={handleSubmit} className="space-y-6">
+              <form onSubmit={handleSubmit} className="p-6 space-y-6">
                 <div className="grid md:grid-cols-2 gap-6">
                   <div className="group">
                     <label className="block text-sm font-semibold text-gray-700 mb-2">
-                      <Hash size={16} className="inline mr-2" />
-                      Kode Transaksi
+                    Kode Transaksi
                     </label>
                     <input 
                       name="kode_transaksi" 
                       placeholder="Masukkan kode transaksi" 
                       value={formData.kode_transaksi} 
                       onChange={handleInputChange} 
-                      className="w-full border-2 border-gray-200 px-4 py-3 rounded-xl focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 group-hover:border-gray-300" 
+                      className="w-full border-2 border-gray-200 px-4 py-3 rounded-xl focus:border-green-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 group-hover:border-gray-300" 
                       required 
                     />
                   </div>
                   
                   <div className="group">
                     <label className="block text-sm font-semibold text-gray-700 mb-2">
-                      <Eye size={16} className="inline mr-2" />
+                      
                       Kode Proyektor
                     </label>
                     <input 
@@ -238,7 +245,7 @@ export default function Transaksi() {
                       placeholder="Masukkan kode proyektor" 
                       value={formData.kode_proyektor} 
                       onChange={handleInputChange} 
-                      className="w-full border-2 border-gray-200 px-4 py-3 rounded-xl focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 group-hover:border-gray-300" 
+                      className="w-full border-2 border-gray-200 px-4 py-3 rounded-xl focus:border-green-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 group-hover:border-gray-300" 
                       required 
                     />
                   </div>
@@ -246,7 +253,7 @@ export default function Transaksi() {
                 
                 <div className="group">
                   <label className="block text-sm font-semibold text-gray-700 mb-2">
-                    <User size={16} className="inline mr-2" />
+                    
                     NIK Peminjam
                   </label>
                   <input 
@@ -254,7 +261,7 @@ export default function Transaksi() {
                     placeholder="Masukkan NIK peminjam" 
                     value={formData.nik} 
                     onChange={handleInputChange} 
-                    className="w-full border-2 border-gray-200 px-4 py-3 rounded-xl focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 group-hover:border-gray-300" 
+                    className="w-full border-2 border-gray-200 px-4 py-3 rounded-xl focus:border-green-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 group-hover:border-gray-300" 
                     required 
                   />
                 </div>
@@ -262,7 +269,7 @@ export default function Transaksi() {
                 <div className="flex gap-4 pt-4">
                   <button 
                     type="submit" 
-                    className="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-bold py-3 px-6 rounded-xl hover:from-blue-700 hover:to-purple-700 hover:shadow-lg hover:scale-105 transition-all duration-300"
+                    className="flex-1 bg-gradient-to-r from-green-600 to-green-600 text-white font-bold py-3 px-6 rounded-xl hover:from-green-700 hover:to-green-700 hover:shadow-lg hover:scale-105 transition-all duration-300"
                   >
                     Simpan Transaksi
                   </button>
@@ -369,9 +376,7 @@ export default function Transaksi() {
                             <button 
                               onClick={() => handleDelete(item.kode_transaksi)} 
                               className="group/btn bg-red-500 text-white px-3 py-2 rounded-lg hover:bg-red-600 hover:shadow-lg hover:scale-105 transition-all duration-200 flex items-center gap-2 font-medium"
-                            >
-                              <Trash2 size={16} className="group-hover/btn:animate-bounce" />
-                              Hapus
+                            > Hapus
                             </button>
                           </div>
                         </td>
