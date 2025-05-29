@@ -256,23 +256,21 @@ export default function Home() {
       <div className="max-w-7xl mx-auto px-6 py-8">
         {/* Enhanced Form */}
         {showForm && (
-          <div className="mb-8">
-            <div className="max-w-2xl mx-auto bg-white rounded-2xl shadow-2xl overflow-hidden">
-              <div className="bg-gradient-to-r from-indigo-600 to-purple-600 px-8 py-6">
-                <h2 className="text-2xl font-bold text-white flex items-center gap-3">
-                  <Plus size={24} />
-                  {editMode ? 'Edit' : 'Tambah'} Proyektor
-                </h2>
-                <p className="text-indigo-100 mt-2">{editMode ? 'Perbarui informasi proyektor' : 'Tambahkan proyektor baru ke sistem'}</p>
-              </div>
-              
+          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md transform transition-all duration-300 scale-100">
+            <div className="bg-gradient-to-r from-green-400 to-green-600 p-6 rounded-t-2xl">
+              <h2 className="text-2xl font-bold text-white flex items-center gap-3">
+                {editMode ? <Edit size={24} /> : <Plus size={24} />}
+                {editMode ? 'Edit' : 'Tambah'} Penanggung Jawab
+              </h2>
+            </div>
               <form onSubmit={handleNext} className="p-8 space-y-6">
                 <div className="space-y-2">
                   <label className="block text-sm font-semibold text-gray-700 mb-2">Kode Proyektor</label>
                   <input
                     type="text"
                     name="kode_proyektor"
-                    className="w-full border-2 border-gray-200 rounded-lg px-4 py-3 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none transition-all duration-200"
+                    className="w-full border-2 border-gray-200 rounded-lg px-4 py-3 focus:border-green-400 focus:ring-2 focus:ring-indigo-200 outline-none transition-all duration-200"
                     defaultValue={editData?.kode_proyektor || ''}
                     required
                     readOnly={editMode}
@@ -285,7 +283,7 @@ export default function Home() {
                   <input
                     type="text"
                     name="merek"
-                    className="w-full border-2 border-gray-200 rounded-lg px-4 py-3 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none transition-all duration-200"
+                    className="w-full border-2 border-gray-200 rounded-lg px-4 py-3 focus:border-green-400 focus:ring-2 focus:ring-indigo-200 outline-none transition-all duration-200"
                     defaultValue={editData?.merek || ''}
                     required
                     placeholder="Masukkan merek proyektor"
@@ -297,7 +295,7 @@ export default function Home() {
                   <input
                     type="text"
                     name="nomor_seri"
-                    className="w-full border-2 border-gray-200 rounded-lg px-4 py-3 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none transition-all duration-200"
+                    className="w-full border-2 border-gray-200 rounded-lg px-4 py-3 focus:border-green-400 focus:ring-2 focus:ring-indigo-200 outline-none transition-all duration-200"
                     defaultValue={editData?.nomor_seri || ''}
                     required
                     placeholder="Masukkan nomor seri"
@@ -309,7 +307,7 @@ export default function Home() {
                   <input
                     type="text"
                     name="status"
-                    className="w-full border-2 border-gray-200 rounded-lg px-4 py-3 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none transition-all duration-200"
+                    className="w-full border-2 border-gray-200 rounded-lg px-4 py-3 focus:border-green-400 focus:ring-2 focus:ring-indigo-200 outline-none transition-all duration-200"
                     defaultValue={editData?.status || ''}
                     required
                     placeholder="Masukkan status proyektor"
@@ -326,7 +324,7 @@ export default function Home() {
                   </button>
                   <button 
                     type="submit" 
-                    className="px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg hover:from-indigo-700 hover:to-purple-700 font-semibold shadow-lg transition-all duration-200 transform hover:scale-105"
+                    className="px-6 py-3 bg-gradient-to-r from-green-400 to-green-600 text-white rounded-lg hover:from-green-400 hover:to-green-600 font-semibold shadow-lg transition-all duration-200 transform hover:scale-105"
                   >
                     {editMode ? 'Update' : 'Tambah'} Proyektor
                   </button>
@@ -360,7 +358,7 @@ export default function Home() {
                     <label className="block text-sm font-semibold text-gray-700">Kode Proyektor</label>
                     <input
                       type="text"
-                      className="w-full border-2 border-gray-200 rounded-lg px-4 py-3 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all duration-200"
+                      className="w-full border-2 border-gray-200 rounded-lg px-4 py-3 focus:border-green-400 focus:ring-2 focus:ring-blue-200 outline-none transition-all duration-200"
                       value={searchParams.kode_proyektor}
                       onChange={(e) => setSearchParams({ ...searchParams, kode_proyektor: e.target.value })}
                       placeholder="Cari berdasarkan kode"
@@ -371,7 +369,7 @@ export default function Home() {
                     <label className="block text-sm font-semibold text-gray-700">Nomor Seri</label>
                     <input
                       type="text"
-                      className="w-full border-2 border-gray-200 rounded-lg px-4 py-3 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all duration-200"
+                      className="w-full border-2 border-gray-200 rounded-lg px-4 py-3 focus:border-green-400 focus:ring-2 focus:ring-blue-200 outline-none transition-all duration-200"
                       value={searchParams.nomor_seri}
                       onChange={(e) => setSearchParams({ ...searchParams, nomor_seri: e.target.value })}
                       placeholder="Cari berdasarkan seri"
@@ -382,7 +380,7 @@ export default function Home() {
                     <label className="block text-sm font-semibold text-gray-700">Merek</label>
                     <input
                       type="text"
-                      className="w-full border-2 border-gray-200 rounded-lg px-4 py-3 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all duration-200"
+                      className="w-full border-2 border-gray-200 rounded-lg px-4 py-3 focus:border-green-400 focus:ring-2 focus:ring-blue-200 outline-none transition-all duration-200"
                       value={searchParams.merek}
                       onChange={(e) => setSearchParams({ ...searchParams, merek: e.target.value })}
                       placeholder="Cari berdasarkan merek"
@@ -392,7 +390,7 @@ export default function Home() {
                   <div className="space-y-2">
                     <label className="block text-sm font-semibold text-gray-700">Status</label>
                     <select
-                      className="w-full border-2 border-gray-200 rounded-lg px-4 py-3 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all duration-200"
+                      className="w-full border-2 border-gray-200 rounded-lg px-4 py-3 focus:border-green-400 focus:ring-2 focus:ring-blue-200 outline-none transition-all duration-200"
                       value={searchParams.status}
                       onChange={(e) => setSearchParams({ ...searchParams, status: e.target.value })}
                     >

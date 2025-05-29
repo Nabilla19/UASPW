@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import Link from 'next/link';
-import { Menu, X, History, Calendar, User, Activity, Clock, ArrowLeft } from 'lucide-react';
+import { Menu, X, History,Plus, Calendar, User, Activity, Clock, ArrowLeft } from 'lucide-react';
 import useAuth from '../components/hooks/useAuth';
 
 export default function RiwayatPage() {
@@ -10,8 +10,16 @@ export default function RiwayatPage() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [riwayatData, setRiwayatData] = useState([]);
   const [loadingData, setLoadingData] = useState(true);
+  const [editMode, setEditMode] = useState(false);
+  const [editData, setEditData] = useState(null);
+  const [showForm, setShowForm] = useState(false);
   const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
+  const toggleForm = () => {
+    setEditMode(false);
+    setEditData(null);
+    setShowForm(!showForm);
+  };
   useEffect(() => {
     const fetchRiwayat = async () => {
       try {
@@ -64,16 +72,6 @@ export default function RiwayatPage() {
               <Link href="/profile" className="text-gray-300 font-semibold text-sm px-4 py-2 rounded-lg hover:bg-gray-700 hover:text-white transform hover:scale-105 transition-all duration-200">PROFILE</Link>
             </div>
           </div>
-
-          {!loading && userRole === 'ADMIN' && (
-            <button
-              onClick={toggleForm}
-              className="bg-gradient-to-r from-indigo-500 to-purple-600 text-white p-3 rounded-full shadow-lg hover:shadow-xl transform hover:scale-110 transition-all duration-200 flex items-center justify-center group"
-              aria-label="Tambah proyektor"
-            >
-              <Plus size={20} className="group-hover:rotate-90 transition-transform duration-200" />
-            </button>
-          )}
         </div>
 
         {menuOpen && (
@@ -105,7 +103,7 @@ export default function RiwayatPage() {
           {/* Loading State */}
           {loadingData ? (
             <div className="flex justify-center items-center py-20">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600"></div>
               <span className="ml-4 text-gray-600 text-lg">Memuat data...</span>
             </div>
           ) : (
@@ -162,7 +160,7 @@ export default function RiwayatPage() {
                         </td>
                         <td className="px-6 py-4 text-sm text-gray-800 font-medium">{item.nama}</td>
                         <td className="px-6 py-4 text-sm text-gray-600">
-                          <span className="px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-xs">
+                          <span className="px-3 py-1 bg-green-100 text-green-600 rounded-full text-xs">
                             {item.kegiatan}
                           </span>
                         </td>

@@ -145,7 +145,7 @@ export default function PenanggungJawab() {
   if (loading) {
     return (
       <div className="flex justify-center items-center h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
-        <div className="animate-spin rounded-full h-16 w-16 border-4 border-blue-500 border-t-transparent"></div>
+        <div className="animate-spin rounded-full h-16 w-16 border-4 border-green-400 border-t-transparent"></div>
       </div>
     );
   }
@@ -178,7 +178,7 @@ export default function PenanggungJawab() {
           {!loading && userRole === 'ADMIN' && (
             <button
               onClick={toggleForm}
-              className="bg-gradient-to-r from-indigo-500 to-purple-600 text-white p-3 rounded-full shadow-lg hover:shadow-xl transform hover:scale-110 transition-all duration-200 flex items-center justify-center group"
+              className="bg-gradient-to-r from-green-400 to-green-600 text-white p-3 rounded-full shadow-lg hover:shadow-xl transform hover:scale-110 transition-all duration-200 flex items-center justify-center group"
               aria-label="Tambah proyektor"
             >
               <Plus size={20} className="group-hover:rotate-90 transition-transform duration-200" />
@@ -216,7 +216,7 @@ export default function PenanggungJawab() {
       {showForm && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md transform transition-all duration-300 scale-100">
-            <div className="bg-gradient-to-r from-blue-500 to-indigo-600 p-6 rounded-t-2xl">
+            <div className="bg-gradient-to-r from-green-400 to-green-600 p-6 rounded-t-2xl">
               <h2 className="text-2xl font-bold text-white flex items-center gap-3">
                 {editMode ? <Edit size={24} /> : <Plus size={24} />}
                 {editMode ? 'Edit' : 'Tambah'} Penanggung Jawab
@@ -231,7 +231,7 @@ export default function PenanggungJawab() {
                 <input
                   type="text"
                   name="nik"
-                  className="w-full border-2 border-gray-200 rounded-xl px-4 py-3 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 outline-none"
+                  className="w-full border-2 border-gray-200 rounded-xl px-4 py-3 focus:border-green-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 outline-none"
                   defaultValue={editData?.nik || ''}
                   placeholder="Masukkan NIK"
                   required
@@ -246,7 +246,7 @@ export default function PenanggungJawab() {
                 <input
                   type="text"
                   name="nama"
-                  className="w-full border-2 border-gray-200 rounded-xl px-4 py-3 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 outline-none"
+                  className="w-full border-2 border-gray-200 rounded-xl px-4 py-3 focus:border-green-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 outline-none"
                   defaultValue={editData?.nama || ''}
                   placeholder="Masukkan nama lengkap"
                   required
@@ -260,7 +260,7 @@ export default function PenanggungJawab() {
                 <input
                   type="text"
                   name="kontak"
-                  className="w-full border-2 border-gray-200 rounded-xl px-4 py-3 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 outline-none"
+                  className="w-full border-2 border-gray-200 rounded-xl px-4 py-3 focus:border-green-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 outline-none"
                   defaultValue={editData?.no_hp || ''}
                   placeholder="Masukkan nomor telepon"
                   required
@@ -277,7 +277,7 @@ export default function PenanggungJawab() {
                 </button>
                 <button 
                   type="submit" 
-                  className="flex-1 bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white font-semibold py-3 px-4 rounded-xl transition-all duration-200 hover:scale-105 shadow-lg hover:shadow-xl"
+                  className="flex-1 bg-gradient-to-r from-green-400 to-green-600 hover:from-green-400 hover:to-green-600 text-white font-semibold py-3 px-4 rounded-xl transition-all duration-200 hover:scale-105 shadow-lg hover:shadow-xl"
                 >
                   {editMode ? 'Update' : 'Simpan'}
                 </button>
@@ -349,14 +349,14 @@ export default function PenanggungJawab() {
                             <div className="flex items-center justify-center gap-2">
                               <button
                                 onClick={() => handleEdit(item)}
-                                className="bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-white p-2 rounded-lg transition-all duration-200 hover:scale-110 shadow-md hover:shadow-lg"
+                                className="bg-yellow-400 text-white p-2 rounded-lg transition-all duration-200 hover:scale-110 shadow-md hover:shadow-lg"
                                 title="Edit"
                               >
                                 <Edit size={14} />
                               </button>
                               <button
                                 onClick={() => handleDelete(item.nik)}
-                                className="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white p-2 rounded-lg transition-all duration-200 hover:scale-110 shadow-md hover:shadow-lg"
+                                className="bg-red-500  text-white p-2 rounded-lg transition-all duration-200 hover:scale-110 shadow-md hover:shadow-lg"
                                 title="Hapus"
                               >
                                 <Trash2 size={14} />

@@ -182,7 +182,7 @@ export default function Kegiatan() {
     return (
       <div className="min-h-screen flex justify-center items-center bg-gradient-to-br from-blue-50 to-indigo-100">
         <div className="flex flex-col items-center space-y-4">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600"></div>
           <p className="text-gray-600 font-medium">Loading...</p>
         </div>
       </div>
@@ -218,7 +218,7 @@ export default function Kegiatan() {
           {!loading && userRole === 'ADMIN' && (
             <button
               onClick={toggleForm}
-              className="bg-gradient-to-r from-indigo-500 to-purple-600 text-white p-3 rounded-full shadow-lg hover:shadow-xl transform hover:scale-110 transition-all duration-200 flex items-center justify-center group"
+              className="bg-gradient-to-r from-green-400 to-green-600 text-white p-3 rounded-full shadow-lg hover:shadow-xl transform hover:scale-110 transition-all duration-200 flex items-center justify-center group"
               aria-label="Tambah proyektor"
             >
               <Plus size={20} className="group-hover:rotate-90 transition-transform duration-200" />
@@ -251,7 +251,7 @@ export default function Kegiatan() {
         {showForm && (
           <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
             <div className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-              <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-6 rounded-t-2xl">
+              <div className="bg-gradient-to-r from-green-600 to-green-600 text-white p-6 rounded-t-2xl">
                 <h2 className="text-2xl font-bold flex items-center gap-3">
                   {editMode ? <Edit size={24} /> : <Plus size={24} />}
                   {editMode ? 'Edit Kegiatan' : 'Tambah Kegiatan Baru'}
@@ -267,7 +267,7 @@ export default function Kegiatan() {
                     <input
                       type="text"
                       name="kode_transaksi"
-                      className="w-full border-2 border-gray-200 rounded-xl px-4 py-3 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20 transition-all duration-200"
+                      className="w-full border-2 border-gray-200 rounded-xl px-4 py-3 focus:border-green-400 focus:ring-4 focus:ring-blue-500/20 transition-all duration-200"
                       defaultValue={editData?.kode_transaksi || ''}
                       required
                       readOnly={editMode}
@@ -282,7 +282,7 @@ export default function Kegiatan() {
                     <input
                       type="text"
                       name="kegiatan"
-                      className="w-full border-2 border-gray-200 rounded-xl px-4 py-3 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20 transition-all duration-200"
+                      className="w-full border-2 border-gray-200 rounded-xl px-4 py-3 focus:border-green-400 focus:ring-4 focus:ring-blue-500/20 transition-all duration-200"
                       defaultValue={editData?.kegiatan || ''}
                       required
                       placeholder="Masukkan nama kegiatan"
@@ -296,7 +296,7 @@ export default function Kegiatan() {
                     <input
                       type="text"
                       name="tempat"
-                      className="w-full border-2 border-gray-200 rounded-xl px-4 py-3 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20 transition-all duration-200"
+                      className="w-full border-2 border-gray-200 rounded-xl px-4 py-3 focus:border-green-400 focus:ring-4 focus:ring-blue-500/20 transition-all duration-200"
                       defaultValue={editData?.tempat || ''}
                       required
                       placeholder="Masukkan tempat kegiatan"
@@ -310,7 +310,7 @@ export default function Kegiatan() {
                     <input
                       type="datetime-local"
                       name="waktu"
-                      className="w-full border-2 border-gray-200 rounded-xl px-4 py-3 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20 transition-all duration-200"
+                      className="w-full border-2 border-gray-200 rounded-xl px-4 py-3 focus:border-green-400 focus:ring-4 focus:ring-blue-500/20 transition-all duration-200"
                       defaultValue={
                         editData?.waktu 
                           ? formatDateTimeForInput(editData.waktu) 
@@ -331,7 +331,7 @@ export default function Kegiatan() {
                   </button>
                   <button 
                     type="submit" 
-                    className="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-6 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-200"
+                    className="flex-1 bg-gradient-to-r from-green-400 to-green-600 hover:from-green-600 text-white px-6 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-200"
                   >
                     {editMode ? 'Update' : 'Simpan'}
                   </button>
@@ -371,7 +371,7 @@ export default function Kegiatan() {
                   filteredItems.map((item, index) => (
                     <tr key={item.kode_transaksi} className="border-b border-gray-100 hover:bg-blue-50/50 transition-colors duration-200">
                       <td className="px-6 py-4">
-                        <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">
+                        <span className="bg-blue-100 text-green-400 px-3 py-1 rounded-full text-sm font-medium">
                           {item.kode_transaksi}
                         </span>
                       </td>

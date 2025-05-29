@@ -49,16 +49,6 @@ export default function Profile() {
               <Link href="/profile" className="text-white font-bold text-sm px-4 py-2 rounded-lg bg-green-600 hover:bg-green-700 transform hover:scale-105 transition-all duration-200 shadow-lg">PROFILE</Link>
             </div>
           </div>
-
-          {!loading && userRole === 'ADMIN' && (
-            <button
-              onClick={toggleForm}
-              className="bg-gradient-to-r from-indigo-500 to-purple-600 text-white p-3 rounded-full shadow-lg hover:shadow-xl transform hover:scale-110 transition-all duration-200 flex items-center justify-center group"
-              aria-label="Tambah proyektor"
-            >
-              <Plus size={20} className="group-hover:rotate-90 transition-transform duration-200" />
-            </button>
-          )}
         </div>
 
         {menuOpen && (
