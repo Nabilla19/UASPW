@@ -266,8 +266,7 @@ export default function Kegiatan() {
                     <input
                       type="text"
                       name="kode_transaksi"
-                      className="w-full border-2 border-gray-200 rounded-xl px-4 py-3 focus:border-green-400 focus:ring-4 focus:ring-blue-500/20 transition-all duration-200"
-                      defaultValue={editData?.kode_transaksi || ''}
+className="w-full border-2 border-gray-200 rounded-xl px-4 py-3 focus:border-green-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 outline-none bg-gray-100 text-gray-800"                      defaultValue={editData?.kode_transaksi || ''}
                       required
                       readOnly={editMode}
                       placeholder="Masukkan kode transaksi"
@@ -281,8 +280,7 @@ export default function Kegiatan() {
                     <input
                       type="text"
                       name="kegiatan"
-                      className="w-full border-2 border-gray-200 rounded-xl px-4 py-3 focus:border-green-400 focus:ring-4 focus:ring-blue-500/20 transition-all duration-200"
-                      defaultValue={editData?.kegiatan || ''}
+className="w-full border-2 border-gray-200 rounded-xl px-4 py-3 focus:border-green-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 outline-none bg-gray-100 text-gray-800"                      defaultValue={editData?.kegiatan || ''}
                       required
                       placeholder="Masukkan nama kegiatan"
                     />
@@ -295,8 +293,7 @@ export default function Kegiatan() {
                     <input
                       type="text"
                       name="tempat"
-                      className="w-full border-2 border-gray-200 rounded-xl px-4 py-3 focus:border-green-400 focus:ring-4 focus:ring-blue-500/20 transition-all duration-200"
-                      defaultValue={editData?.tempat || ''}
+className="w-full border-2 border-gray-200 rounded-xl px-4 py-3 focus:border-green-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 outline-none bg-gray-100 text-gray-800"                      defaultValue={editData?.tempat || ''}
                       required
                       placeholder="Masukkan tempat kegiatan"
                     />
@@ -309,8 +306,7 @@ export default function Kegiatan() {
                     <input
                       type="datetime-local"
                       name="waktu"
-                      className="w-full border-2 border-gray-200 rounded-xl px-4 py-3 focus:border-green-400 focus:ring-4 focus:ring-blue-500/20 transition-all duration-200"
-                      defaultValue={
+className="w-full border-2 border-gray-200 rounded-xl px-4 py-3 focus:border-green-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 outline-none bg-gray-100 text-gray-800"                      defaultValue={
                         editData?.waktu 
                           ? formatDateTimeForInput(editData.waktu) 
                           : ''
@@ -360,7 +356,6 @@ export default function Kegiatan() {
                   <tr>
                     <td colSpan={userRole === 'ADMIN' ? 5 : 4} className="px-6 py-12 text-center">
                       <div className="flex flex-col items-center space-y-3">
-                        <Activity className="text-gray-300" size={48} />
                         <p className="text-gray-500 font-medium">Belum ada data kegiatan</p>
                         <p className="text-gray-400 text-sm">Data akan muncul setelah ditambahkan</p>
                       </div>

@@ -230,8 +230,7 @@ export default function Transaksi() {
                       placeholder="Masukkan kode transaksi" 
                       value={formData.kode_transaksi} 
                       onChange={handleInputChange} 
-                      className="w-full border-2 border-gray-200 px-4 py-3 rounded-xl focus:border-green-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 group-hover:border-gray-300" 
-                      required 
+className="w-full border-2 border-gray-200 rounded-xl px-4 py-3 focus:border-green-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 outline-none bg-gray-100 text-gray-800"                      required 
                     />
                   </div>
                   
@@ -245,8 +244,7 @@ export default function Transaksi() {
                       placeholder="Masukkan kode proyektor" 
                       value={formData.kode_proyektor} 
                       onChange={handleInputChange} 
-                      className="w-full border-2 border-gray-200 px-4 py-3 rounded-xl focus:border-green-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 group-hover:border-gray-300" 
-                      required 
+className="w-full border-2 border-gray-200 rounded-xl px-4 py-3 focus:border-green-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 outline-none bg-gray-100 text-gray-800"                      required 
                     />
                   </div>
                 </div>
@@ -261,8 +259,7 @@ export default function Transaksi() {
                     placeholder="Masukkan NIK peminjam" 
                     value={formData.nik} 
                     onChange={handleInputChange} 
-                    className="w-full border-2 border-gray-200 px-4 py-3 rounded-xl focus:border-green-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 group-hover:border-gray-300" 
-                    required 
+className="w-full border-2 border-gray-200 rounded-xl px-4 py-3 focus:border-green-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 outline-none bg-gray-100 text-gray-800"                    required 
                   />
                 </div>
                 

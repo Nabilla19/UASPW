@@ -270,8 +270,7 @@ export default function Home() {
                   <input
                     type="text"
                     name="kode_proyektor"
-                    className="w-full border-2 border-gray-200 rounded-lg px-4 py-3 focus:border-green-400 focus:ring-2 focus:ring-indigo-200 outline-none transition-all duration-200"
-                    defaultValue={editData?.kode_proyektor || ''}
+className="w-full border-2 border-gray-200 rounded-xl px-4 py-3 focus:border-green-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 outline-none bg-gray-100 text-gray-800"                    defaultValue={editData?.kode_proyektor || ''}
                     required
                     readOnly={editMode}
                     placeholder="Masukkan kode proyektor"
@@ -283,8 +282,7 @@ export default function Home() {
                   <input
                     type="text"
                     name="merek"
-                    className="w-full border-2 border-gray-200 rounded-lg px-4 py-3 focus:border-green-400 focus:ring-2 focus:ring-indigo-200 outline-none transition-all duration-200"
-                    defaultValue={editData?.merek || ''}
+className="w-full border-2 border-gray-200 rounded-xl px-4 py-3 focus:border-green-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 outline-none bg-gray-100 text-gray-800"                    defaultValue={editData?.merek || ''}
                     required
                     placeholder="Masukkan merek proyektor"
                   />
@@ -295,8 +293,7 @@ export default function Home() {
                   <input
                     type="text"
                     name="nomor_seri"
-                    className="w-full border-2 border-gray-200 rounded-lg px-4 py-3 focus:border-green-400 focus:ring-2 focus:ring-indigo-200 outline-none transition-all duration-200"
-                    defaultValue={editData?.nomor_seri || ''}
+className="w-full border-2 border-gray-200 rounded-xl px-4 py-3 focus:border-green-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 outline-none bg-gray-100 text-gray-800"                    defaultValue={editData?.nomor_seri || ''}
                     required
                     placeholder="Masukkan nomor seri"
                   />
@@ -307,8 +304,7 @@ export default function Home() {
                   <input
                     type="text"
                     name="status"
-                    className="w-full border-2 border-gray-200 rounded-lg px-4 py-3 focus:border-green-400 focus:ring-2 focus:ring-indigo-200 outline-none transition-all duration-200"
-                    defaultValue={editData?.status || ''}
+className="w-full border-2 border-gray-200 rounded-xl px-4 py-3 focus:border-green-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 outline-none bg-gray-100 text-gray-800"                    defaultValue={editData?.status || ''}
                     required
                     placeholder="Masukkan status proyektor"
                   />
@@ -358,8 +354,7 @@ export default function Home() {
                     <label className="block text-sm font-semibold text-gray-700">Kode Proyektor</label>
                     <input
                       type="text"
-                      className="w-full border-2 border-gray-200 rounded-lg px-4 py-3 focus:border-green-400 focus:ring-2 focus:ring-blue-200 outline-none transition-all duration-200"
-                      value={searchParams.kode_proyektor}
+className="w-full border-2 border-gray-200 rounded-xl px-4 py-3 focus:border-green-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 outline-none bg-gray-100 text-gray-800"                      value={searchParams.kode_proyektor}
                       onChange={(e) => setSearchParams({ ...searchParams, kode_proyektor: e.target.value })}
                       placeholder="Cari berdasarkan kode"
                     />
@@ -369,8 +364,7 @@ export default function Home() {
                     <label className="block text-sm font-semibold text-gray-700">Nomor Seri</label>
                     <input
                       type="text"
-                      className="w-full border-2 border-gray-200 rounded-lg px-4 py-3 focus:border-green-400 focus:ring-2 focus:ring-blue-200 outline-none transition-all duration-200"
-                      value={searchParams.nomor_seri}
+className="w-full border-2 border-gray-200 rounded-xl px-4 py-3 focus:border-green-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 outline-none bg-gray-100 text-gray-800"                      value={searchParams.nomor_seri}
                       onChange={(e) => setSearchParams({ ...searchParams, nomor_seri: e.target.value })}
                       placeholder="Cari berdasarkan seri"
                     />
@@ -380,8 +374,7 @@ export default function Home() {
                     <label className="block text-sm font-semibold text-gray-700">Merek</label>
                     <input
                       type="text"
-                      className="w-full border-2 border-gray-200 rounded-lg px-4 py-3 focus:border-green-400 focus:ring-2 focus:ring-blue-200 outline-none transition-all duration-200"
-                      value={searchParams.merek}
+className="w-full border-2 border-gray-200 rounded-xl px-4 py-3 focus:border-green-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 outline-none bg-gray-100 text-gray-800"                      value={searchParams.merek}
                       onChange={(e) => setSearchParams({ ...searchParams, merek: e.target.value })}
                       placeholder="Cari berdasarkan merek"
                     />
@@ -390,8 +383,7 @@ export default function Home() {
                   <div className="space-y-2">
                     <label className="block text-sm font-semibold text-gray-700">Status</label>
                     <select
-                      className="w-full border-2 border-gray-200 rounded-lg px-4 py-3 focus:border-green-400 focus:ring-2 focus:ring-blue-200 outline-none transition-all duration-200"
-                      value={searchParams.status}
+className="w-full border-2 border-gray-200 rounded-xl px-4 py-3 focus:border-green-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 outline-none bg-gray-100 text-gray-800"                      value={searchParams.status}
                       onChange={(e) => setSearchParams({ ...searchParams, status: e.target.value })}
                     >
                       <option value="">Semua Status</option>

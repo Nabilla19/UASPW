@@ -185,18 +185,14 @@ export default function RiwayatPage() {
                       </tr>
                     ))
                   ) : (
-                    <tr>
-                      <td>
-                        <div className="flex flex-col items-center gap-4">
-                          <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center">
-                          </div>
-                          <div>
-                            <p className="text-gray-500 text-lg font-medium mb-2">Tidak ada data riwayat</p>
-                            <p className="text-gray-400 text-sm">Belum ada transaksi peminjaman yang tercatat</p>
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
+                   <tr>
+              <td colSpan="6" className="px-6 py-12 text-center">
+                <div className="flex flex-col items-center justify-center">
+                  <p className="text-gray-500 text-lg font-medium">Tidak ada data riwayat</p>
+                  <p className="text-gray-400 text-sm mt-2">Belum ada transaksi peminjaman yang tercatat</p>
+                </div>
+              </td>
+            </tr>
                   )}
                 </tbody>
               </table>

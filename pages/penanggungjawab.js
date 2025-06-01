@@ -231,8 +231,7 @@ export default function PenanggungJawab() {
                 <input
                   type="text"
                   name="nik"
-                  className="w-full border-2 border-gray-200 rounded-xl px-4 py-3 focus:border-green-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 outline-none"
-                  defaultValue={editData?.nik || ''}
+className="w-full border-2 border-gray-200 rounded-xl px-4 py-3 focus:border-green-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 outline-none bg-gray-100 text-gray-800"                  defaultValue={editData?.nik || ''}
                   placeholder="Masukkan NIK"
                   required
                   readOnly={editMode}
@@ -246,8 +245,7 @@ export default function PenanggungJawab() {
                 <input
                   type="text"
                   name="nama"
-                  className="w-full border-2 border-gray-200 rounded-xl px-4 py-3 focus:border-green-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 outline-none"
-                  defaultValue={editData?.nama || ''}
+className="w-full border-2 border-gray-200 rounded-xl px-4 py-3 focus:border-green-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 outline-none bg-gray-100 text-gray-800"                  defaultValue={editData?.nama || ''}
                   placeholder="Masukkan nama lengkap"
                   required
                 />
@@ -260,8 +258,7 @@ export default function PenanggungJawab() {
                 <input
                   type="text"
                   name="kontak"
-                  className="w-full border-2 border-gray-200 rounded-xl px-4 py-3 focus:border-green-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 outline-none"
-                  defaultValue={editData?.no_hp || ''}
+className="w-full border-2 border-gray-200 rounded-xl px-4 py-3 focus:border-green-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 outline-none bg-gray-100 text-gray-800"                  defaultValue={editData?.no_hp || ''}
                   placeholder="Masukkan nomor telepon"
                   required
                 />
